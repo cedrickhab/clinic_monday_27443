@@ -99,4 +99,9 @@ public class AppointmentController {
                 HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/by-status")
+    public List<Appointment> findByStatus(@RequestParam AppointmentStatus status) {
+        return appointmentService.findByStatus(status);
+    }
+
 }

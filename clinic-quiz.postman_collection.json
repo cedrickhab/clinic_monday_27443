@@ -1028,6 +1028,26 @@
               }
             }
           ]
+        },
+        {
+          "name": "A2 Appointments by status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/appointments/by-status?status=SCHEDULED"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Expected result\", function () { const rows = pm.response.json(); pm.expect(rows.length).to.eql(3); pm.expect(rows.every(a => a.status === \"SCHEDULED\")).to.eql(true); const dates = rows.map(a => a.appointmentDate); pm.expect(dates).to.eql([...dates].sort()); });"
+                ]
+              }
+            }
+          ]
         }
       ]
     },
