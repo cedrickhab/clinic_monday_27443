@@ -15,6 +15,26 @@
       "name": "0 Empty database checks",
       "item": [
         {
+          "name": "C3 No appointments yet",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/offices/busiest"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.text()).to.eql(\"No appointments yet\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
           "name": "C1 No status rows",
           "request": {
             "method": "GET",
@@ -1259,6 +1279,26 @@
                 "exec": [
                   "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
                   "pm.test(\"Expected result\", function () { pm.expect(pm.response.json().map(p => p.id)).to.eql([pm.collectionVariables.get(\"patient1\")]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "C3 Busiest office",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/offices/busiest"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.json()).to.eql([\"Office 101\",101,6]); });"
                 ]
               }
             }

@@ -85,4 +85,13 @@ public class OfficeController {
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/busiest")
+    public ResponseEntity<?> findBusiest() {
+        Optional<Object[]> office = officeService.findBusiest();
+        if (office.isEmpty()) {
+            return ResponseEntity.ok("No appointments yet");
+        }
+        return ResponseEntity.ok(office.get());
+    }
+
 }
