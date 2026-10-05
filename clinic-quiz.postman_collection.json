@@ -1243,6 +1243,26 @@
               }
             }
           ]
+        },
+        {
+          "name": "C2 Frequent patients",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/patients/frequent?min=3"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.json().map(p => p.id)).to.eql([pm.collectionVariables.get(\"patient1\")]); });"
+                ]
+              }
+            }
+          ]
         }
       ]
     },

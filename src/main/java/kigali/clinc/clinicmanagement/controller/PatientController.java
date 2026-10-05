@@ -88,4 +88,9 @@ public class PatientController {
         return ResponseEntity.ok(patientService.findPatientsOfDoctor(doctorId));
     }
 
+    @GetMapping("/frequent")
+    public List<Patient> findFrequentPatients(@RequestParam long min) {
+        return patientService.findFrequentPatients(min);
+    }
+
 }
