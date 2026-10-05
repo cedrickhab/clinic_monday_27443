@@ -76,4 +76,9 @@ public class SpecializationController {
         return new ResponseEntity<>("Specialization not found", HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/unused")
+    public List<Specialization> findUnused() {
+        return specializationService.findUnused();
+    }
+
 }
