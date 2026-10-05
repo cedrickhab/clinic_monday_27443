@@ -1162,6 +1162,46 @@
               }
             }
           ]
+        },
+        {
+          "name": "B4 Unique patients of doctor",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/patients/of-doctor/{{doctor1}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Expected result\", function () { const ids = pm.response.json().map(p => p.id); pm.expect(ids.length).to.eql(3); pm.expect(new Set(ids).size).to.eql(3); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "B4 Missing doctor",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/patients/of-doctor/00000000-0000-0000-0000-000000000000"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
+                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.text()).to.eql(\"The doctor with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
         }
       ]
     },

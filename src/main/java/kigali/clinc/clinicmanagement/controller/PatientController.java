@@ -80,4 +80,12 @@ public class PatientController {
         return patientService.findByLastName(lastName);
     }
 
+    @GetMapping("/of-doctor/{doctorId}")
+    public ResponseEntity<?> findPatientsOfDoctor(@PathVariable UUID doctorId) {
+        if (doctorService.getDoctorById(doctorId).isEmpty()) {
+            return new ResponseEntity<>("The doctor with that id does not exist", HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(patientService.findPatientsOfDoctor(doctorId));
+    }
+
 }
