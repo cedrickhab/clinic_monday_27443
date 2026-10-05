@@ -988,7 +988,48 @@
     },
     {
       "name": "2 Query requirements",
-      "item": []
+      "item": [
+        {
+          "name": "A1 Patients by last name",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/patients/by-last-name?lastName=uWaSe"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.json().map(p => p.firstName)).to.eql([\"Alice\", \"Diane\"]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A1 No matching patients",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/patients/by-last-name?lastName=Nobody"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.json()).to.eql([]); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "3 Bulk changes",

@@ -75,4 +75,9 @@ public class PatientController {
     @Autowired
     private DoctorService doctorService;
 
+    @GetMapping("/by-last-name")
+    public List<Patient> findByLastName(@RequestParam String lastName) {
+        return patientService.findByLastName(lastName);
+    }
+
 }
