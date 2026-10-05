@@ -60,4 +60,8 @@ public class PatientService {
         return patientRepo.findPatientsOfDoctor(doctorId);
     }
 
+    public List<Patient> findFrequentPatients(long min) {
+        return patientRepo.findFrequentPatients(min);
+    }
+
 }
