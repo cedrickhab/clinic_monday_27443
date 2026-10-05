@@ -136,4 +136,10 @@ public class AppointmentService {
         return appointmentRepo.findAll(pageable);
     }
 
+    @Transactional
+    public String deleteCancelledBefore(LocalDate date) {
+        int count = appointmentRepo.deleteCancelledBefore(date, AppointmentStatus.CANCELLED);
+        return count + " appointments deleted";
+    }
+
 }

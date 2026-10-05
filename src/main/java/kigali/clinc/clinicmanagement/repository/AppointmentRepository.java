@@ -31,4 +31,8 @@ public interface AppointmentRepository
     int cancelDay(@Param("doctorId") UUID doctorId, @Param("date") LocalDate date,
             @Param("cancelled") AppointmentStatus cancelled, @Param("completed") AppointmentStatus completed);
 
+    @Modifying
+    @Query("DELETE FROM Appointment a WHERE a.status = :status AND a.appointmentDate < :date")
+    int deleteCancelledBefore(@Param("date") LocalDate date, @Param("status") AppointmentStatus status);
+
 }
