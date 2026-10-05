@@ -19,4 +19,6 @@ public interface AppointmentRepository
 
     List<Appointment> findByStatusOrderByAppointmentDateAsc(AppointmentStatus status);
 
+    List<Appointment> findByAppointmentDateBetweenOrderByAppointmentDateAsc(LocalDate start, LocalDate end);
+
 }

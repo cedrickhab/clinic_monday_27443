@@ -114,4 +114,8 @@ public class AppointmentService {
         return appointmentRepo.findByStatusOrderByAppointmentDateAsc(status);
     }
 
+    public List<Appointment> findBetween(LocalDate start, LocalDate end) {
+        return appointmentRepo.findByAppointmentDateBetweenOrderByAppointmentDateAsc(start, end);
+    }
+
 }
