@@ -122,4 +122,17 @@ public class AppointmentController {
         return appointmentService.cancelDay(doctorId, LocalDate.parse(date));
     }
 
+    @GetMapping("/page")
+    public Page<Appointment> findPage(@RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "appointmentDate,desc") String sort) {
+        String[] parts = sort.split(",");
+        Sort.Direction direction = Sort.Direction.ASC;
+        if (parts.length > 1) {
+            direction = Sort.Direction.fromString(parts[1]);
+        }
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, parts[0]));
+        return appointmentService.findPage(pageable);
+    }
+
 }

@@ -1303,6 +1303,26 @@
               }
             }
           ]
+        },
+        {
+          "name": "Bonus Appointment page",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/appointments/page?page=0&size=5&sort=appointmentDate,desc"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Expected result\", function () { const page = pm.response.json(); pm.expect(page.totalElements).to.eql(10); pm.expect(page.totalPages).to.eql(2); pm.expect(page.content.length).to.eql(5); pm.expect(page.content[0].appointmentDate).to.eql(\"2026-11-15\"); });"
+                ]
+              }
+            }
+          ]
         }
       ]
     },
