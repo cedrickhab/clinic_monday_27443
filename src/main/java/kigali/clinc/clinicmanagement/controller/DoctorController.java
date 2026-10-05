@@ -77,4 +77,9 @@ public class DoctorController {
         return new ResponseEntity<>("Doctor not found", HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/by-specialization")
+    public List<Doctor> findBySpecialization(@RequestParam String name) {
+        return doctorService.findBySpecialization(name);
+    }
+
 }
