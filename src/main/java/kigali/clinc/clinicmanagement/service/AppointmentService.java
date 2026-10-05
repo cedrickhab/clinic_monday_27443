@@ -35,6 +35,10 @@ public class AppointmentService {
         if (!loadPatientAndDoctor(appointment)) {
             return "Patient or doctor not found";
         }
+        if (appointmentRepo.existsByDoctorIdAndAppointmentDateAndStatusNot(
+                appointment.getDoctor().getId(), appointment.getAppointmentDate(), AppointmentStatus.CANCELLED)) {
+            return "Doctor is already booked on that date";
+        }
         appointmentRepo.save(appointment);
         return "Appointment is saved successfully";
     }
