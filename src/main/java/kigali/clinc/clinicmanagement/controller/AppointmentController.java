@@ -135,4 +135,9 @@ public class AppointmentController {
         return appointmentService.findPage(pageable);
     }
 
+    @DeleteMapping("/cancelled-before")
+    public String deleteCancelledBefore(@RequestParam String date) {
+        return appointmentService.deleteCancelledBefore(LocalDate.parse(date));
+    }
+
 }
