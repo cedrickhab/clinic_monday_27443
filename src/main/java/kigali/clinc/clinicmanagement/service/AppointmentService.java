@@ -110,4 +110,8 @@ public class AppointmentService {
         return true;
     }
 
+    public List<Appointment> findByStatus(AppointmentStatus status) {
+        return appointmentRepo.findByStatusOrderByAppointmentDateAsc(status);
+    }
+
 }
