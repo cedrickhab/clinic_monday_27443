@@ -1122,6 +1122,26 @@
               }
             }
           ]
+        },
+        {
+          "name": "B2 Doctors without office",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/doctors/without-office"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.json().map(d => d.id)).to.eql([pm.collectionVariables.get(\"doctor3\")]); });"
+                ]
+              }
+            }
+          ]
         }
       ]
     },

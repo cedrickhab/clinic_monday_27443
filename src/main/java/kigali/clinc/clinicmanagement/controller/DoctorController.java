@@ -82,4 +82,9 @@ public class DoctorController {
         return doctorService.findBySpecialization(name);
     }
 
+    @GetMapping("/without-office")
+    public List<Doctor> findWithoutOffice() {
+        return doctorService.findWithoutOffice();
+    }
+
 }
