@@ -13,4 +13,6 @@ import kigali.clinc.clinicmanagement.domain.Patient;
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, UUID> {
 
+    List<Patient> findByLastNameIgnoreCaseOrderByFirstNameAsc(String lastName);
+
 }

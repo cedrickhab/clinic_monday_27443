@@ -52,4 +52,8 @@ public class PatientService {
         return "Patient is deleted successfully";
     }
 
+    public List<Patient> findByLastName(String lastName) {
+        return patientRepo.findByLastNameIgnoreCaseOrderByFirstNameAsc(lastName);
+    }
+
 }
