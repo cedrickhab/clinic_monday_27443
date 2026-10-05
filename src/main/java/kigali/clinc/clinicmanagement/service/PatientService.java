@@ -56,4 +56,8 @@ public class PatientService {
         return patientRepo.findByLastNameIgnoreCaseOrderByFirstNameAsc(lastName);
     }
 
+    public List<Patient> findPatientsOfDoctor(UUID doctorId) {
+        return patientRepo.findPatientsOfDoctor(doctorId);
+    }
+
 }

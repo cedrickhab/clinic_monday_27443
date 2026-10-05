@@ -15,4 +15,7 @@ public interface PatientRepository extends JpaRepository<Patient, UUID> {
 
     List<Patient> findByLastNameIgnoreCaseOrderByFirstNameAsc(String lastName);
 
+    @Query("SELECT DISTINCT a.patient FROM Appointment a WHERE a.doctor.id = :doctorId")
+    List<Patient> findPatientsOfDoctor(@Param("doctorId") UUID doctorId);
+
 }
