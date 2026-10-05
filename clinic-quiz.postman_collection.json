@@ -1048,6 +1048,26 @@
               }
             }
           ]
+        },
+        {
+          "name": "A3 Inclusive October range",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/appointments/between?start=2026-10-01&end=2026-10-31"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Expected result\", function () { const rows = pm.response.json(); pm.expect(rows.length).to.eql(7); pm.expect(rows[0].appointmentDate).to.eql(\"2026-10-01\"); pm.expect(rows[6].appointmentDate).to.eql(\"2026-10-31\"); });"
+                ]
+              }
+            }
+          ]
         }
       ]
     },

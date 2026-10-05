@@ -104,4 +104,9 @@ public class AppointmentController {
         return appointmentService.findByStatus(status);
     }
 
+    @GetMapping("/between")
+    public List<Appointment> findBetween(@RequestParam String start, @RequestParam String end) {
+        return appointmentService.findBetween(LocalDate.parse(start), LocalDate.parse(end));
+    }
+
 }
