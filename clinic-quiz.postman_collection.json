@@ -2,12 +2,107 @@
   "info": {
     "name": "Kigali Clinic Quiz",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "Run folders in order against an empty clinic database. Seed requests save all records through the API. Re-running seed requests requires a fresh database. Bulk checks change seed appointments. Specialization save/update owns doctor assignments. The two cancelled bookings are saved before the confirmed booking on October 20."
+    "description": "This is an executable collection with real request bodies, not a template. Importing it does not insert records. Run the entire collection once, in folder order, against an empty database. The seed folder creates 4 specializations, 3 offices, 3 doctors, 5 patients and 10 appointments through the API.\n\nFor a safe demonstration without touching existing PostgreSQL data, run .\\mvnw.cmd spring-boot:test-run \"-Dspring-boot.run.arguments=--server.port=1015\" and select the imported Clinic Quiz Demo environment. Restart that test server before repeating the full collection. Its H2 data disappears when the server stops.\n\nThe default baseUrl http://localhost:1014 points to your normal PostgreSQL app. Do not run the full collection there unless that database is empty. Existing offices 101/102/103 cause duplicate-number conflicts, and existing appointments change count assertions.\n\nUUID variables such as doctor1 and patient1 start empty and are filled by successful seed requests. They are real server-generated IDs. Run seed requests first; do not send dependent requests with blank IDs. An active Postman environment with variables of the same names overrides collection variables, so remove stale ID overrides.\n\nThe deliberate double-booking request expects 409. Missing-doctor and deleted-record requests expect 404. These are successful negative tests when the response matches. Folder 3 changes seed appointments; exact query assertions in folder 2 describe the data before those changes. CRUD tests create temporary records and delete them. Run CRUD requests in their listed order."
   },
   "variable": [
     {
       "key": "baseUrl",
       "value": "http://localhost:1014"
+    },
+    {
+      "key": "appointment7",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "crudappointments",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "cruddoctors",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "crudoffices",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "crudpatients",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "crudspecializations",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "doctor1",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "doctor2",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "doctor3",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "office1",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "office2",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "patient1",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "patient2",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "patient3",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "patient4",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "patient5",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "specialization1",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "specialization2",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "specialization3",
+      "value": "",
+      "type": "string"
     }
   ],
   "item": [
@@ -19,7 +114,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/offices/busiest"
+            "url": "{{baseUrl}}/api/offices/busiest",
+            "description": "Expected HTTP 200."
           },
           "event": [
             {
@@ -39,7 +135,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/appointments/stats/by-status"
+            "url": "{{baseUrl}}/api/appointments/stats/by-status",
+            "description": "Expected HTTP 200."
           },
           "event": [
             {
@@ -54,7 +151,8 @@
             }
           ]
         }
-      ]
+      ],
+      "description": "Only valid before seeding an empty database. These assertions intentionally fail if records already exist."
     },
     {
       "name": "1 Seed data",
@@ -78,7 +176,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201."
           },
           "event": [
             {
@@ -87,7 +186,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"specialization1\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"specialization1\", pm.response.json().id); }"
                 ]
               }
             }
@@ -112,7 +211,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201."
           },
           "event": [
             {
@@ -121,7 +221,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"specialization2\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"specialization2\", pm.response.json().id); }"
                 ]
               }
             }
@@ -146,7 +246,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201."
           },
           "event": [
             {
@@ -155,7 +256,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"specialization3\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"specialization3\", pm.response.json().id); }"
                 ]
               }
             }
@@ -180,7 +281,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201."
           },
           "event": [
             {
@@ -189,7 +291,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"specialization4\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"specialization4\", pm.response.json().id); }"
                 ]
               }
             }
@@ -214,7 +316,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201."
           },
           "event": [
             {
@@ -247,7 +350,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201."
           },
           "event": [
             {
@@ -280,7 +384,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201."
           },
           "event": [
             {
@@ -299,7 +404,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/offices/all"
+            "url": "{{baseUrl}}/api/offices/all",
+            "description": "Expected HTTP 200."
           },
           "event": [
             {
@@ -333,7 +439,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201. Requires collection variables: office1. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -342,7 +449,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"doctor1\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"doctor1\", pm.response.json().id); }"
                 ]
               }
             }
@@ -367,7 +474,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201. Requires collection variables: office2. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -376,7 +484,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"doctor2\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"doctor2\", pm.response.json().id); }"
                 ]
               }
             }
@@ -401,7 +509,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201."
           },
           "event": [
             {
@@ -410,7 +519,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"doctor3\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"doctor3\", pm.response.json().id); }"
                 ]
               }
             }
@@ -435,7 +544,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 200. Requires collection variables: doctor1, specialization1. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -468,7 +578,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 200. Requires collection variables: doctor1, doctor2, specialization2. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -501,7 +612,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 200. Requires collection variables: doctor3, specialization3. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -534,7 +646,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201."
           },
           "event": [
             {
@@ -543,7 +656,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"patient1\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"patient1\", pm.response.json().id); }"
                 ]
               }
             }
@@ -568,7 +681,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201."
           },
           "event": [
             {
@@ -577,7 +691,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"patient2\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"patient2\", pm.response.json().id); }"
                 ]
               }
             }
@@ -602,7 +716,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201."
           },
           "event": [
             {
@@ -611,7 +726,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"patient3\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"patient3\", pm.response.json().id); }"
                 ]
               }
             }
@@ -636,7 +751,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201."
           },
           "event": [
             {
@@ -645,7 +761,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"patient4\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"patient4\", pm.response.json().id); }"
                 ]
               }
             }
@@ -670,7 +786,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201."
           },
           "event": [
             {
@@ -679,7 +796,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"patient5\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"patient5\", pm.response.json().id); }"
                 ]
               }
             }
@@ -704,7 +821,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201. Requires collection variables: doctor1, patient1. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -713,7 +831,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"appointment1\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"appointment1\", pm.response.json().id); }"
                 ]
               }
             }
@@ -738,7 +856,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201. Requires collection variables: doctor1, patient1. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -747,7 +866,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"appointment2\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"appointment2\", pm.response.json().id); }"
                 ]
               }
             }
@@ -772,7 +891,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201. Requires collection variables: doctor1, patient1. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -781,7 +901,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"appointment3\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"appointment3\", pm.response.json().id); }"
                 ]
               }
             }
@@ -806,7 +926,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201. Requires collection variables: doctor1, patient1. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -815,7 +936,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"appointment4\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"appointment4\", pm.response.json().id); }"
                 ]
               }
             }
@@ -840,7 +961,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201. Requires collection variables: doctor1, patient2. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -849,7 +971,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"appointment5\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"appointment5\", pm.response.json().id); }"
                 ]
               }
             }
@@ -874,7 +996,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201. Requires collection variables: doctor1, patient3. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -883,7 +1006,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"appointment6\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"appointment6\", pm.response.json().id); }"
                 ]
               }
             }
@@ -908,7 +1031,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201. Requires collection variables: doctor2, patient2. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -917,7 +1041,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"appointment7\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"appointment7\", pm.response.json().id); }"
                 ]
               }
             }
@@ -942,7 +1066,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201. Requires collection variables: doctor2, patient3. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -951,7 +1076,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"appointment8\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"appointment8\", pm.response.json().id); }"
                 ]
               }
             }
@@ -976,7 +1101,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201. Requires collection variables: doctor2, patient4. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -985,7 +1111,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"appointment9\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"appointment9\", pm.response.json().id); }"
                 ]
               }
             }
@@ -1010,7 +1136,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201. Requires collection variables: doctor3, patient5. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1019,13 +1146,14 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"appointment10\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"appointment10\", pm.response.json().id); }"
                 ]
               }
             }
           ]
         }
-      ]
+      ],
+      "description": "Run every request in order once. These requests insert real records and store generated UUIDs as collection variables. Cancelled bookings are created before the confirmed booking on the same day. Specialization updates assign doctors."
     },
     {
       "name": "2 Query requirements",
@@ -1035,7 +1163,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/patients/by-last-name?lastName=uWaSe"
+            "url": "{{baseUrl}}/api/patients/by-last-name?lastName=uWaSe",
+            "description": "Expected HTTP 200."
           },
           "event": [
             {
@@ -1055,7 +1184,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/patients/by-last-name?lastName=Nobody"
+            "url": "{{baseUrl}}/api/patients/by-last-name?lastName=Nobody",
+            "description": "Expected HTTP 200."
           },
           "event": [
             {
@@ -1075,7 +1205,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/appointments/by-status?status=SCHEDULED"
+            "url": "{{baseUrl}}/api/appointments/by-status?status=SCHEDULED",
+            "description": "Expected HTTP 200."
           },
           "event": [
             {
@@ -1095,7 +1226,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/appointments/between?start=2026-10-01&end=2026-10-31"
+            "url": "{{baseUrl}}/api/appointments/between?start=2026-10-01&end=2026-10-31",
+            "description": "Expected HTTP 200."
           },
           "event": [
             {
@@ -1129,7 +1261,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 409. This deliberately attempts a duplicate booking; the conflict is expected. Requires collection variables: doctor1, patient2. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1149,7 +1282,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/doctors/by-specialization?name=cArDiOlOgY"
+            "url": "{{baseUrl}}/api/doctors/by-specialization?name=cArDiOlOgY",
+            "description": "Expected HTTP 200."
           },
           "event": [
             {
@@ -1169,7 +1303,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/doctors/without-office"
+            "url": "{{baseUrl}}/api/doctors/without-office",
+            "description": "Expected HTTP 200."
           },
           "event": [
             {
@@ -1189,7 +1324,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/specializations/unused"
+            "url": "{{baseUrl}}/api/specializations/unused",
+            "description": "Expected HTTP 200."
           },
           "event": [
             {
@@ -1209,7 +1345,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/patients/of-doctor/{{doctor1}}"
+            "url": "{{baseUrl}}/api/patients/of-doctor/{{doctor1}}",
+            "description": "Expected HTTP 200. Requires collection variables: doctor1. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1229,7 +1366,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/patients/of-doctor/00000000-0000-0000-0000-000000000000"
+            "url": "{{baseUrl}}/api/patients/of-doctor/00000000-0000-0000-0000-000000000000",
+            "description": "Expected HTTP 404. This deliberately reads a missing or deleted record; not found is expected."
           },
           "event": [
             {
@@ -1249,7 +1387,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/appointments/stats/by-status"
+            "url": "{{baseUrl}}/api/appointments/stats/by-status",
+            "description": "Expected HTTP 200."
           },
           "event": [
             {
@@ -1269,7 +1408,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/patients/frequent?min=3"
+            "url": "{{baseUrl}}/api/patients/frequent?min=3",
+            "description": "Expected HTTP 200."
           },
           "event": [
             {
@@ -1289,7 +1429,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/offices/busiest"
+            "url": "{{baseUrl}}/api/offices/busiest",
+            "description": "Expected HTTP 200."
           },
           "event": [
             {
@@ -1309,7 +1450,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/appointments/page?page=0&size=5&sort=appointmentDate,desc"
+            "url": "{{baseUrl}}/api/appointments/page?page=0&size=5&sort=appointmentDate,desc",
+            "description": "Expected HTTP 200."
           },
           "event": [
             {
@@ -1324,7 +1466,8 @@
             }
           ]
         }
-      ]
+      ],
+      "description": "Run after the complete seed folder and before bulk changes. Exact counts and names match the supplied seed data. The 409 double-booking and 404 missing-doctor responses are expected."
     },
     {
       "name": "3 Bulk changes",
@@ -1334,7 +1477,8 @@
           "request": {
             "method": "PATCH",
             "header": [],
-            "url": "{{baseUrl}}/api/appointments/cancel-day?doctorId={{doctor1}}&date=2026-10-20"
+            "url": "{{baseUrl}}/api/appointments/cancel-day?doctorId={{doctor1}}&date=2026-10-20",
+            "description": "Expected HTTP 200. Requires collection variables: doctor1. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1354,7 +1498,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/appointments/between?start=2026-10-20&end=2026-10-20"
+            "url": "{{baseUrl}}/api/appointments/between?start=2026-10-20&end=2026-10-20",
+            "description": "Expected HTTP 200."
           },
           "event": [
             {
@@ -1374,7 +1519,8 @@
           "request": {
             "method": "PATCH",
             "header": [],
-            "url": "{{baseUrl}}/api/appointments/cancel-day?doctorId={{doctor2}}&date=2026-10-20"
+            "url": "{{baseUrl}}/api/appointments/cancel-day?doctorId={{doctor2}}&date=2026-10-20",
+            "description": "Expected HTTP 200. Requires collection variables: doctor2. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1394,7 +1540,8 @@
           "request": {
             "method": "DELETE",
             "header": [],
-            "url": "{{baseUrl}}/api/appointments/cancelled-before?date=2026-10-15"
+            "url": "{{baseUrl}}/api/appointments/cancelled-before?date=2026-10-15",
+            "description": "Expected HTTP 200."
           },
           "event": [
             {
@@ -1414,7 +1561,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/appointments/{{appointment7}}"
+            "url": "{{baseUrl}}/api/appointments/{{appointment7}}",
+            "description": "Expected HTTP 404. This deliberately reads a missing or deleted record; not found is expected. Requires collection variables: appointment7. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1433,7 +1581,8 @@
           "request": {
             "method": "DELETE",
             "header": [],
-            "url": "{{baseUrl}}/api/appointments/cancelled-before?date=2026-10-20"
+            "url": "{{baseUrl}}/api/appointments/cancelled-before?date=2026-10-20",
+            "description": "Expected HTTP 200."
           },
           "event": [
             {
@@ -1448,7 +1597,8 @@
             }
           ]
         }
-      ]
+      ],
+      "description": "Run after query checks. These requests cancel and delete real seed appointments. Repeating this folder can produce different counts because data has changed."
     },
     {
       "name": "4 CRUD checks",
@@ -1472,7 +1622,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201."
           },
           "event": [
             {
@@ -1481,7 +1632,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"crudpatients\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"crudpatients\", pm.response.json().id); }"
                 ]
               }
             }
@@ -1492,7 +1643,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/patients/{{crudpatients}}"
+            "url": "{{baseUrl}}/api/patients/{{crudpatients}}",
+            "description": "Expected HTTP 200. Requires collection variables: crudpatients. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1525,7 +1677,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 200. Requires collection variables: crudpatients. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1544,7 +1697,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/patients/{{crudpatients}}"
+            "url": "{{baseUrl}}/api/patients/{{crudpatients}}",
+            "description": "Expected HTTP 200. Requires collection variables: crudpatients. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1564,7 +1718,8 @@
           "request": {
             "method": "DELETE",
             "header": [],
-            "url": "{{baseUrl}}/api/patients/{{crudpatients}}"
+            "url": "{{baseUrl}}/api/patients/{{crudpatients}}",
+            "description": "Expected HTTP 200. Requires collection variables: crudpatients. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1583,7 +1738,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/patients/{{crudpatients}}"
+            "url": "{{baseUrl}}/api/patients/{{crudpatients}}",
+            "description": "Expected HTTP 404. This deliberately reads a missing or deleted record; not found is expected. Requires collection variables: crudpatients. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1616,7 +1772,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201."
           },
           "event": [
             {
@@ -1635,7 +1792,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/offices/all"
+            "url": "{{baseUrl}}/api/offices/all",
+            "description": "Expected HTTP 200."
           },
           "event": [
             {
@@ -1655,7 +1813,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/offices/{{crudoffices}}"
+            "url": "{{baseUrl}}/api/offices/{{crudoffices}}",
+            "description": "Expected HTTP 200. Requires collection variables: crudoffices. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1688,7 +1847,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 200. Requires collection variables: crudoffices. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1707,7 +1867,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/offices/{{crudoffices}}"
+            "url": "{{baseUrl}}/api/offices/{{crudoffices}}",
+            "description": "Expected HTTP 200. Requires collection variables: crudoffices. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1727,7 +1888,8 @@
           "request": {
             "method": "DELETE",
             "header": [],
-            "url": "{{baseUrl}}/api/offices/{{crudoffices}}"
+            "url": "{{baseUrl}}/api/offices/{{crudoffices}}",
+            "description": "Expected HTTP 200. Requires collection variables: crudoffices. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1746,7 +1908,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/offices/{{crudoffices}}"
+            "url": "{{baseUrl}}/api/offices/{{crudoffices}}",
+            "description": "Expected HTTP 404. This deliberately reads a missing or deleted record; not found is expected. Requires collection variables: crudoffices. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1779,7 +1942,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201."
           },
           "event": [
             {
@@ -1788,7 +1952,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"cruddoctors\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"cruddoctors\", pm.response.json().id); }"
                 ]
               }
             }
@@ -1799,7 +1963,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/doctors/{{cruddoctors}}"
+            "url": "{{baseUrl}}/api/doctors/{{cruddoctors}}",
+            "description": "Expected HTTP 200. Requires collection variables: cruddoctors. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1832,7 +1997,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 200. Requires collection variables: cruddoctors. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1851,7 +2017,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/doctors/{{cruddoctors}}"
+            "url": "{{baseUrl}}/api/doctors/{{cruddoctors}}",
+            "description": "Expected HTTP 200. Requires collection variables: cruddoctors. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1871,7 +2038,8 @@
           "request": {
             "method": "DELETE",
             "header": [],
-            "url": "{{baseUrl}}/api/doctors/{{cruddoctors}}"
+            "url": "{{baseUrl}}/api/doctors/{{cruddoctors}}",
+            "description": "Expected HTTP 200. Requires collection variables: cruddoctors. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1890,7 +2058,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/doctors/{{cruddoctors}}"
+            "url": "{{baseUrl}}/api/doctors/{{cruddoctors}}",
+            "description": "Expected HTTP 404. This deliberately reads a missing or deleted record; not found is expected. Requires collection variables: cruddoctors. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1923,7 +2092,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201."
           },
           "event": [
             {
@@ -1932,7 +2102,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"crudspecializations\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"crudspecializations\", pm.response.json().id); }"
                 ]
               }
             }
@@ -1943,7 +2113,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/specializations/{{crudspecializations}}"
+            "url": "{{baseUrl}}/api/specializations/{{crudspecializations}}",
+            "description": "Expected HTTP 200. Requires collection variables: crudspecializations. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1976,7 +2147,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 200. Requires collection variables: crudspecializations. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -1995,7 +2167,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/specializations/{{crudspecializations}}"
+            "url": "{{baseUrl}}/api/specializations/{{crudspecializations}}",
+            "description": "Expected HTTP 200. Requires collection variables: crudspecializations. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -2015,7 +2188,8 @@
           "request": {
             "method": "DELETE",
             "header": [],
-            "url": "{{baseUrl}}/api/specializations/{{crudspecializations}}"
+            "url": "{{baseUrl}}/api/specializations/{{crudspecializations}}",
+            "description": "Expected HTTP 200. Requires collection variables: crudspecializations. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -2034,7 +2208,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/specializations/{{crudspecializations}}"
+            "url": "{{baseUrl}}/api/specializations/{{crudspecializations}}",
+            "description": "Expected HTTP 404. This deliberately reads a missing or deleted record; not found is expected. Requires collection variables: crudspecializations. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -2067,7 +2242,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 201. Requires collection variables: doctor3, patient5. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -2076,7 +2252,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\"crudappointments\", pm.response.json().id);"
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"crudappointments\", pm.response.json().id); }"
                 ]
               }
             }
@@ -2087,7 +2263,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/appointments/{{crudappointments}}"
+            "url": "{{baseUrl}}/api/appointments/{{crudappointments}}",
+            "description": "Expected HTTP 200. Requires collection variables: crudappointments. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -2120,7 +2297,8 @@
                   "language": "json"
                 }
               }
-            }
+            },
+            "description": "Expected HTTP 200. Requires collection variables: crudappointments, doctor3, patient5. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -2139,7 +2317,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/appointments/{{crudappointments}}"
+            "url": "{{baseUrl}}/api/appointments/{{crudappointments}}",
+            "description": "Expected HTTP 200. Requires collection variables: crudappointments. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -2159,7 +2338,8 @@
           "request": {
             "method": "DELETE",
             "header": [],
-            "url": "{{baseUrl}}/api/appointments/{{crudappointments}}"
+            "url": "{{baseUrl}}/api/appointments/{{crudappointments}}",
+            "description": "Expected HTTP 200. Requires collection variables: crudappointments. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -2178,7 +2358,8 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/api/appointments/{{crudappointments}}"
+            "url": "{{baseUrl}}/api/appointments/{{crudappointments}}",
+            "description": "Expected HTTP 404. This deliberately reads a missing or deleted record; not found is expected. Requires collection variables: crudappointments. Run the seed folder first; crud variables come from the matching Create request."
           },
           "event": [
             {
@@ -2192,7 +2373,8 @@
             }
           ]
         }
-      ]
+      ],
+      "description": "Run after seeding. For each entity, create must precede read/update/delete. The final read expects 404 because that temporary record was deleted."
     }
   ]
 }
