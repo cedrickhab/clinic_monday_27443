@@ -39,6 +39,9 @@ public class AppointmentController {
             @RequestBody Appointment appointment) {
 
         String message = appointmentService.saveAppointment(appointment);
+        if (message.equals("Doctor is already booked on that date")) {
+            return new ResponseEntity<>(message, HttpStatus.CONFLICT);
+        }
         if (message.equals("Patient or doctor not found")) {
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
