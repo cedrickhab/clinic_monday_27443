@@ -26,4 +26,9 @@ public interface AppointmentRepository
     @Query("SELECT a.status, COUNT(a) FROM Appointment a GROUP BY a.status")
     List<Object[]> countByStatus();
 
+    @Modifying
+    @Query("UPDATE Appointment a SET a.status = :cancelled WHERE a.doctor.id = :doctorId AND a.appointmentDate = :date AND a.status <> :completed")
+    int cancelDay(@Param("doctorId") UUID doctorId, @Param("date") LocalDate date,
+            @Param("cancelled") AppointmentStatus cancelled, @Param("completed") AppointmentStatus completed);
+
 }

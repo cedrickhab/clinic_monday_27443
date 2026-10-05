@@ -126,4 +126,10 @@ public class AppointmentService {
         return appointmentRepo.countByStatus();
     }
 
+    @Transactional
+    public String cancelDay(UUID doctorId, LocalDate date) {
+        int count = appointmentRepo.cancelDay(doctorId, date, AppointmentStatus.CANCELLED, AppointmentStatus.COMPLETED);
+        return count + " appointments cancelled";
+    }
+
 }
