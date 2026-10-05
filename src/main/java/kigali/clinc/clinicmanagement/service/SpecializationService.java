@@ -73,4 +73,8 @@ public class SpecializationService {
         return true;
     }
 
+    public List<Specialization> findUnused() {
+        return specializationRepo.findUnused();
+    }
+
 }
