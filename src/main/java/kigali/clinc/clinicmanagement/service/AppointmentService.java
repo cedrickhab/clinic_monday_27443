@@ -122,4 +122,8 @@ public class AppointmentService {
         return appointmentRepo.findByAppointmentDateBetweenOrderByAppointmentDateAsc(start, end);
     }
 
+    public List<Object[]> countByStatus() {
+        return appointmentRepo.countByStatus();
+    }
+
 }

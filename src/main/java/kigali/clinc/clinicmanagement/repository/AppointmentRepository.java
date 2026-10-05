@@ -23,4 +23,7 @@ public interface AppointmentRepository
 
     boolean existsByDoctorIdAndAppointmentDateAndStatusNot(UUID doctorId, LocalDate date, AppointmentStatus status);
 
+    @Query("SELECT a.status, COUNT(a) FROM Appointment a GROUP BY a.status")
+    List<Object[]> countByStatus();
+
 }
