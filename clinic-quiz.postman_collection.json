@@ -13,7 +13,28 @@
   "item": [
     {
       "name": "0 Empty database checks",
-      "item": []
+      "item": [
+        {
+          "name": "C1 No status rows",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/appointments/stats/by-status"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.json()).to.eql([]); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "1 Seed data",
@@ -1198,6 +1219,26 @@
                 "exec": [
                   "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });",
                   "pm.test(\"Expected result\", function () { pm.expect(pm.response.text()).to.eql(\"The doctor with that id does not exist\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "C1 Status counts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/appointments/stats/by-status"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Expected result\", function () { const counts = Object.fromEntries(pm.response.json()); pm.expect(counts).to.eql({SCHEDULED:3, CONFIRMED:2, COMPLETED:2, CANCELLED:3}); });"
                 ]
               }
             }

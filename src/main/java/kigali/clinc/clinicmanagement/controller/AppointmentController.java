@@ -112,4 +112,9 @@ public class AppointmentController {
         return appointmentService.findBetween(LocalDate.parse(start), LocalDate.parse(end));
     }
 
+    @GetMapping("/stats/by-status")
+    public List<Object[]> countByStatus() {
+        return appointmentService.countByStatus();
+    }
+
 }
