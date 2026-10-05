@@ -117,4 +117,9 @@ public class AppointmentController {
         return appointmentService.countByStatus();
     }
 
+    @PatchMapping("/cancel-day")
+    public String cancelDay(@RequestParam UUID doctorId, @RequestParam String date) {
+        return appointmentService.cancelDay(doctorId, LocalDate.parse(date));
+    }
+
 }

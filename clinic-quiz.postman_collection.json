@@ -1308,7 +1308,68 @@
     },
     {
       "name": "3 Bulk changes",
-      "item": []
+      "item": [
+        {
+          "name": "C4 Cancel doctor day",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": "{{baseUrl}}/api/appointments/cancel-day?doctorId={{doctor1}}&date=2026-10-20"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.text()).to.eql(\"3 appointments cancelled\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "C4 Check cancelled rows",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/appointments/between?start=2026-10-20&end=2026-10-20"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Expected result\", function () { const rows = pm.response.json().filter(a => a.doctor.id === pm.collectionVariables.get(\"doctor1\")); pm.expect(rows.length).to.eql(3); pm.expect(rows.every(a => a.status === \"CANCELLED\")).to.eql(true); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "C4 Preserve completed appointment",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": "{{baseUrl}}/api/appointments/cancel-day?doctorId={{doctor2}}&date=2026-10-20"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.text()).to.eql(\"0 appointments cancelled\"); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "4 CRUD checks",
