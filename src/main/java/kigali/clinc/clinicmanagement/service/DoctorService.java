@@ -81,4 +81,8 @@ public class DoctorService {
         return true;
     }
 
+    public List<Doctor> findBySpecialization(String name) {
+        return doctorRepo.findBySpecialization(name);
+    }
+
 }

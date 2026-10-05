@@ -13,4 +13,7 @@ import kigali.clinc.clinicmanagement.domain.Doctor;
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, UUID> {
 
+    @Query("SELECT DISTINCT d FROM Doctor d JOIN d.specializations s WHERE LOWER(s.name) = LOWER(:name)")
+    List<Doctor> findBySpecialization(@Param("name") String name);
+
 }
