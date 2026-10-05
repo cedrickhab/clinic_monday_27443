@@ -132,4 +132,8 @@ public class AppointmentService {
         return count + " appointments cancelled";
     }
 
+    public Page<Appointment> findPage(Pageable pageable) {
+        return appointmentRepo.findAll(pageable);
+    }
+
 }
