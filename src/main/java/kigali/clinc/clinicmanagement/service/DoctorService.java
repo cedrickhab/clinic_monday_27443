@@ -85,4 +85,8 @@ public class DoctorService {
         return doctorRepo.findBySpecialization(name);
     }
 
+    public List<Doctor> findWithoutOffice() {
+        return doctorRepo.findWithoutOffice();
+    }
+
 }
