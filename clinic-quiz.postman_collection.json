@@ -2,7 +2,7 @@
   "info": {
     "name": "Kigali Clinic Quiz",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "This is an executable collection with real request bodies, not a template. Importing it does not insert records. Run the entire collection once, in folder order, against an empty database. The seed folder creates 4 specializations, 3 offices, 3 doctors, 5 patients and 10 appointments through the API.\n\nFor a safe demonstration without touching existing PostgreSQL data, run .\\mvnw.cmd spring-boot:test-run \"-Dspring-boot.run.arguments=--server.port=1015\" and select the imported Clinic Quiz Demo environment. Restart that test server before repeating the full collection. Its H2 data disappears when the server stops.\n\nThe default baseUrl http://localhost:1014 points to your normal PostgreSQL app. Do not run the full collection there unless that database is empty. Existing offices 101/102/103 cause duplicate-number conflicts, and existing appointments change count assertions.\n\nUUID variables such as doctor1 and patient1 start empty and are filled by successful seed requests. They are real server-generated IDs. Run seed requests first; do not send dependent requests with blank IDs. An active Postman environment with variables of the same names overrides collection variables, so remove stale ID overrides.\n\nThe deliberate double-booking request expects 409. Missing-doctor and deleted-record requests expect 404. These are successful negative tests when the response matches. Folder 3 changes seed appointments; exact query assertions in folder 2 describe the data before those changes. CRUD tests create temporary records and delete them. Run CRUD requests in their listed order."
+    "description": "Both No environment and Clinic Quiz Demo use http://localhost:1014 and the same PostgreSQL clinic database. Seed records are already saved there. Reimport this collection to load their real UUIDs. Seed requests reuse existing matching records. Run the query folder for read-only checks plus the intentional double-booking check. Bulk requests really cancel/delete appointments. CRUD requests must run in order. Expected 409 and 404 responses are deliberate negative tests. Query assertions compare against the current database, including existing records. No temporary server is needed."
   },
   "variable": [
     {
@@ -11,7 +11,7 @@
     },
     {
       "key": "appointment7",
-      "value": "",
+      "value": "234f685e-c302-41a2-83c5-857ecbeda41e",
       "type": "string"
     },
     {
@@ -41,119 +41,126 @@
     },
     {
       "key": "doctor1",
-      "value": "",
+      "value": "25cb540d-81d4-428a-ba94-60678620729a",
       "type": "string"
     },
     {
       "key": "doctor2",
-      "value": "",
+      "value": "f184b1d8-fca1-4e90-a3c5-8f463818101a",
       "type": "string"
     },
     {
       "key": "doctor3",
-      "value": "",
+      "value": "63017571-be76-4356-91b2-19b00f6d786e",
       "type": "string"
     },
     {
       "key": "office1",
-      "value": "",
+      "value": "0b4c9507-e8d3-4478-bbdf-817b9a2610dc",
       "type": "string"
     },
     {
       "key": "office2",
-      "value": "",
+      "value": "3d919976-d96b-4fc9-aa9b-a9ecf67a2b2a",
       "type": "string"
     },
     {
       "key": "patient1",
-      "value": "",
+      "value": "2b4a07be-6fcd-47ee-862d-34efde2a7a28",
       "type": "string"
     },
     {
       "key": "patient2",
-      "value": "",
+      "value": "458d6701-a645-49b3-8366-9de74e13ecfd",
       "type": "string"
     },
     {
       "key": "patient3",
-      "value": "",
+      "value": "cd3fb300-64f3-4e99-98d5-4d822e5775d3",
       "type": "string"
     },
     {
       "key": "patient4",
-      "value": "",
+      "value": "30f75010-361a-45e4-8e92-7cbc10246b64",
       "type": "string"
     },
     {
       "key": "patient5",
-      "value": "",
+      "value": "c920c43c-42bf-4520-8650-33969dfdf107",
       "type": "string"
     },
     {
       "key": "specialization1",
-      "value": "",
+      "value": "83bcf243-3cb9-4d5b-a993-673266236165",
       "type": "string"
     },
     {
       "key": "specialization2",
-      "value": "",
+      "value": "3985bf28-3303-424c-891d-eebf2678383b",
       "type": "string"
     },
     {
       "key": "specialization3",
-      "value": "",
+      "value": "f45cfbca-7cb1-4191-b0cf-9ec61e2c4db2",
+      "type": "string"
+    },
+    {
+      "key": "specialization4",
+      "value": "510ea194-03ea-4ddd-8da4-bdc698ef575f",
+      "type": "string"
+    },
+    {
+      "key": "office3",
+      "value": "855d3591-06c3-4ac2-b6f8-34bb1c2ff2b3",
+      "type": "string"
+    },
+    {
+      "key": "appointment1",
+      "value": "95529d35-46ea-4898-8693-b9af21caa678",
+      "type": "string"
+    },
+    {
+      "key": "appointment2",
+      "value": "977cc649-136f-43cb-8653-b83ecee7360d",
+      "type": "string"
+    },
+    {
+      "key": "appointment3",
+      "value": "45df20a3-a134-487b-844e-f96b6882cc74",
+      "type": "string"
+    },
+    {
+      "key": "appointment4",
+      "value": "484e6709-da7d-4342-a976-5751e5974b93",
+      "type": "string"
+    },
+    {
+      "key": "appointment5",
+      "value": "a4b218ce-bff2-4418-b1a9-3d3567eeae83",
+      "type": "string"
+    },
+    {
+      "key": "appointment6",
+      "value": "6b9765a5-1f06-496d-a186-b55aa88ba1ed",
+      "type": "string"
+    },
+    {
+      "key": "appointment8",
+      "value": "f85ba148-3ecb-415c-95ef-8b165101d166",
+      "type": "string"
+    },
+    {
+      "key": "appointment9",
+      "value": "8190c051-58dc-4ad4-8e6c-d0f26ea5ac9f",
+      "type": "string"
+    },
+    {
+      "key": "appointment10",
+      "value": "4104d784-66a1-486c-9148-90ebdecdc1f3",
       "type": "string"
     }
   ],
   "item": [
-    {
-      "name": "0 Empty database checks",
-      "item": [
-        {
-          "name": "C3 No appointments yet",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": "{{baseUrl}}/api/offices/busiest",
-            "description": "Expected HTTP 200."
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
-                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.text()).to.eql(\"No appointments yet\"); });"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "C1 No status rows",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": "{{baseUrl}}/api/appointments/stats/by-status",
-            "description": "Expected HTTP 200."
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
-                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.json()).to.eql([]); });"
-                ]
-              }
-            }
-          ]
-        }
-      ],
-      "description": "Only valid before seeding an empty database. These assertions intentionally fail if records already exist."
-    },
     {
       "name": "1 Seed data",
       "item": [
@@ -177,9 +184,27 @@
                 }
               }
             },
-            "description": "Expected HTTP 201."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/specializations/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load specializations before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.name.toLowerCase() === body.name.toLowerCase(); });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"specialization1\", existing.id);",
+                  "        console.log(\"Reusing existing specializations record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -212,9 +237,27 @@
                 }
               }
             },
-            "description": "Expected HTTP 201."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/specializations/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load specializations before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.name.toLowerCase() === body.name.toLowerCase(); });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"specialization2\", existing.id);",
+                  "        console.log(\"Reusing existing specializations record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -247,9 +290,27 @@
                 }
               }
             },
-            "description": "Expected HTTP 201."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/specializations/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load specializations before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.name.toLowerCase() === body.name.toLowerCase(); });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"specialization3\", existing.id);",
+                  "        console.log(\"Reusing existing specializations record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -282,9 +343,27 @@
                 }
               }
             },
-            "description": "Expected HTTP 201."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/specializations/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load specializations before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.name.toLowerCase() === body.name.toLowerCase(); });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"specialization4\", existing.id);",
+                  "        console.log(\"Reusing existing specializations record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -317,9 +396,27 @@
                 }
               }
             },
-            "description": "Expected HTTP 201."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/offices/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load offices before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.officeNumber === body.officeNumber; });",
+                  "    if (existing) {",
+                  "        ",
+                  "        console.log(\"Reusing existing offices record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -351,9 +448,27 @@
                 }
               }
             },
-            "description": "Expected HTTP 201."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/offices/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load offices before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.officeNumber === body.officeNumber; });",
+                  "    if (existing) {",
+                  "        ",
+                  "        console.log(\"Reusing existing offices record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -385,9 +500,27 @@
                 }
               }
             },
-            "description": "Expected HTTP 201."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/offices/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load offices before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.officeNumber === body.officeNumber; });",
+                  "    if (existing) {",
+                  "        ",
+                  "        console.log(\"Reusing existing offices record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -440,9 +573,27 @@
                 }
               }
             },
-            "description": "Expected HTTP 201. Requires collection variables: office1. Run the seed folder first; crud variables come from the matching Create request."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/doctors/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load doctors before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.firstName === body.firstName && row.lastName === body.lastName; });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"doctor1\", existing.id);",
+                  "        console.log(\"Reusing existing doctors record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -468,16 +619,34 @@
             "url": "{{baseUrl}}/api/doctors/save",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"firstName\": \"Alice\",\n  \"lastName\": \"Uwimana\",\n  \"dateOfBirth\": \"1980-01-10\",\n  \"office\": {\n    \"id\": \"{{office2}}\"\n  }\n}",
+              "raw": "{\n  \"firstName\": \"Alice\",\n  \"lastName\": \"Uwimana\",\n  \"dateOfBirth\": \"1980-01-10\",\n  \"office\": {\n    \"id\": \"{{office3}}\"\n  }\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
             },
-            "description": "Expected HTTP 201. Requires collection variables: office2. Run the seed folder first; crud variables come from the matching Create request."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/doctors/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load doctors before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.firstName === body.firstName && row.lastName === body.lastName; });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"doctor2\", existing.id);",
+                  "        console.log(\"Reusing existing doctors record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -510,9 +679,27 @@
                 }
               }
             },
-            "description": "Expected HTTP 201."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/doctors/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load doctors before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.firstName === body.firstName && row.lastName === body.lastName; });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"doctor3\", existing.id);",
+                  "        console.log(\"Reusing existing doctors record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -545,7 +732,7 @@
                 }
               }
             },
-            "description": "Expected HTTP 200. Requires collection variables: doctor1, specialization1. Run the seed folder first; crud variables come from the matching Create request."
+            "description": "Assigns the seed doctors to this specialization."
           },
           "event": [
             {
@@ -579,7 +766,7 @@
                 }
               }
             },
-            "description": "Expected HTTP 200. Requires collection variables: doctor1, doctor2, specialization2. Run the seed folder first; crud variables come from the matching Create request."
+            "description": "Assigns the seed doctors to this specialization."
           },
           "event": [
             {
@@ -613,7 +800,7 @@
                 }
               }
             },
-            "description": "Expected HTTP 200. Requires collection variables: doctor3, specialization3. Run the seed folder first; crud variables come from the matching Create request."
+            "description": "Assigns the seed doctors to this specialization."
           },
           "event": [
             {
@@ -647,9 +834,27 @@
                 }
               }
             },
-            "description": "Expected HTTP 201."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/patients/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load patients before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.firstName === body.firstName && row.lastName === body.lastName; });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"patient1\", existing.id);",
+                  "        console.log(\"Reusing existing patients record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -682,9 +887,27 @@
                 }
               }
             },
-            "description": "Expected HTTP 201."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/patients/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load patients before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.firstName === body.firstName && row.lastName === body.lastName; });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"patient2\", existing.id);",
+                  "        console.log(\"Reusing existing patients record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -717,9 +940,27 @@
                 }
               }
             },
-            "description": "Expected HTTP 201."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/patients/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load patients before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.firstName === body.firstName && row.lastName === body.lastName; });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"patient3\", existing.id);",
+                  "        console.log(\"Reusing existing patients record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -752,9 +993,27 @@
                 }
               }
             },
-            "description": "Expected HTTP 201."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/patients/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load patients before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.firstName === body.firstName && row.lastName === body.lastName; });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"patient4\", existing.id);",
+                  "        console.log(\"Reusing existing patients record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -787,9 +1046,27 @@
                 }
               }
             },
-            "description": "Expected HTTP 201."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/patients/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load patients before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.firstName === body.firstName && row.lastName === body.lastName; });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"patient5\", existing.id);",
+                  "        console.log(\"Reusing existing patients record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -815,16 +1092,34 @@
             "url": "{{baseUrl}}/api/appointments/save",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"doctor\": {\n    \"id\": \"{{doctor1}}\"\n  },\n  \"patient\": {\n    \"id\": \"{{patient1}}\"\n  },\n  \"appointmentDate\": \"2026-10-20\",\n  \"status\": \"CANCELLED\",\n  \"reason\": \"Clinic visit\"\n}",
+              "raw": "{\n  \"doctor\": {\n    \"id\": \"{{doctor1}}\"\n  },\n  \"patient\": {\n    \"id\": \"{{patient1}}\"\n  },\n  \"appointmentDate\": \"2026-10-20\",\n  \"status\": \"CANCELLED\",\n  \"reason\": \"Quiz appointment 1\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
             },
-            "description": "Expected HTTP 201. Requires collection variables: doctor1, patient1. Run the seed folder first; crud variables come from the matching Create request."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/appointments/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load appointments before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.reason === body.reason && row.doctor.id === body.doctor.id && row.patient.id === body.patient.id && row.appointmentDate === body.appointmentDate; });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"appointment1\", existing.id);",
+                  "        console.log(\"Reusing existing appointments record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -850,16 +1145,34 @@
             "url": "{{baseUrl}}/api/appointments/save",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"doctor\": {\n    \"id\": \"{{doctor1}}\"\n  },\n  \"patient\": {\n    \"id\": \"{{patient1}}\"\n  },\n  \"appointmentDate\": \"2026-10-20\",\n  \"status\": \"CANCELLED\",\n  \"reason\": \"Clinic visit\"\n}",
+              "raw": "{\n  \"doctor\": {\n    \"id\": \"{{doctor1}}\"\n  },\n  \"patient\": {\n    \"id\": \"{{patient1}}\"\n  },\n  \"appointmentDate\": \"2026-10-20\",\n  \"status\": \"CANCELLED\",\n  \"reason\": \"Quiz appointment 2\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
             },
-            "description": "Expected HTTP 201. Requires collection variables: doctor1, patient1. Run the seed folder first; crud variables come from the matching Create request."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/appointments/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load appointments before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.reason === body.reason && row.doctor.id === body.doctor.id && row.patient.id === body.patient.id && row.appointmentDate === body.appointmentDate; });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"appointment2\", existing.id);",
+                  "        console.log(\"Reusing existing appointments record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -885,16 +1198,34 @@
             "url": "{{baseUrl}}/api/appointments/save",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"doctor\": {\n    \"id\": \"{{doctor1}}\"\n  },\n  \"patient\": {\n    \"id\": \"{{patient1}}\"\n  },\n  \"appointmentDate\": \"2026-10-20\",\n  \"status\": \"CONFIRMED\",\n  \"reason\": \"Clinic visit\"\n}",
+              "raw": "{\n  \"doctor\": {\n    \"id\": \"{{doctor1}}\"\n  },\n  \"patient\": {\n    \"id\": \"{{patient1}}\"\n  },\n  \"appointmentDate\": \"2026-10-20\",\n  \"status\": \"CONFIRMED\",\n  \"reason\": \"Quiz appointment 3\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
             },
-            "description": "Expected HTTP 201. Requires collection variables: doctor1, patient1. Run the seed folder first; crud variables come from the matching Create request."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/appointments/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load appointments before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.reason === body.reason && row.doctor.id === body.doctor.id && row.patient.id === body.patient.id && row.appointmentDate === body.appointmentDate; });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"appointment3\", existing.id);",
+                  "        console.log(\"Reusing existing appointments record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -920,16 +1251,34 @@
             "url": "{{baseUrl}}/api/appointments/save",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"doctor\": {\n    \"id\": \"{{doctor1}}\"\n  },\n  \"patient\": {\n    \"id\": \"{{patient1}}\"\n  },\n  \"appointmentDate\": \"2026-10-01\",\n  \"status\": \"COMPLETED\",\n  \"reason\": \"Clinic visit\"\n}",
+              "raw": "{\n  \"doctor\": {\n    \"id\": \"{{doctor1}}\"\n  },\n  \"patient\": {\n    \"id\": \"{{patient1}}\"\n  },\n  \"appointmentDate\": \"2026-10-01\",\n  \"status\": \"COMPLETED\",\n  \"reason\": \"Quiz appointment 4\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
             },
-            "description": "Expected HTTP 201. Requires collection variables: doctor1, patient1. Run the seed folder first; crud variables come from the matching Create request."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/appointments/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load appointments before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.reason === body.reason && row.doctor.id === body.doctor.id && row.patient.id === body.patient.id && row.appointmentDate === body.appointmentDate; });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"appointment4\", existing.id);",
+                  "        console.log(\"Reusing existing appointments record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -955,16 +1304,34 @@
             "url": "{{baseUrl}}/api/appointments/save",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"doctor\": {\n    \"id\": \"{{doctor1}}\"\n  },\n  \"patient\": {\n    \"id\": \"{{patient2}}\"\n  },\n  \"appointmentDate\": \"2026-10-31\",\n  \"status\": \"SCHEDULED\",\n  \"reason\": \"Clinic visit\"\n}",
+              "raw": "{\n  \"doctor\": {\n    \"id\": \"{{doctor1}}\"\n  },\n  \"patient\": {\n    \"id\": \"{{patient2}}\"\n  },\n  \"appointmentDate\": \"2026-10-31\",\n  \"status\": \"SCHEDULED\",\n  \"reason\": \"Quiz appointment 5\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
             },
-            "description": "Expected HTTP 201. Requires collection variables: doctor1, patient2. Run the seed folder first; crud variables come from the matching Create request."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/appointments/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load appointments before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.reason === body.reason && row.doctor.id === body.doctor.id && row.patient.id === body.patient.id && row.appointmentDate === body.appointmentDate; });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"appointment5\", existing.id);",
+                  "        console.log(\"Reusing existing appointments record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -990,16 +1357,34 @@
             "url": "{{baseUrl}}/api/appointments/save",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"doctor\": {\n    \"id\": \"{{doctor1}}\"\n  },\n  \"patient\": {\n    \"id\": \"{{patient3}}\"\n  },\n  \"appointmentDate\": \"2026-11-01\",\n  \"status\": \"SCHEDULED\",\n  \"reason\": \"Clinic visit\"\n}",
+              "raw": "{\n  \"doctor\": {\n    \"id\": \"{{doctor1}}\"\n  },\n  \"patient\": {\n    \"id\": \"{{patient3}}\"\n  },\n  \"appointmentDate\": \"2026-11-01\",\n  \"status\": \"SCHEDULED\",\n  \"reason\": \"Quiz appointment 6\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
             },
-            "description": "Expected HTTP 201. Requires collection variables: doctor1, patient3. Run the seed folder first; crud variables come from the matching Create request."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/appointments/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load appointments before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.reason === body.reason && row.doctor.id === body.doctor.id && row.patient.id === body.patient.id && row.appointmentDate === body.appointmentDate; });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"appointment6\", existing.id);",
+                  "        console.log(\"Reusing existing appointments record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -1025,16 +1410,34 @@
             "url": "{{baseUrl}}/api/appointments/save",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"doctor\": {\n    \"id\": \"{{doctor2}}\"\n  },\n  \"patient\": {\n    \"id\": \"{{patient2}}\"\n  },\n  \"appointmentDate\": \"2026-10-10\",\n  \"status\": \"CANCELLED\",\n  \"reason\": \"Clinic visit\"\n}",
+              "raw": "{\n  \"doctor\": {\n    \"id\": \"{{doctor2}}\"\n  },\n  \"patient\": {\n    \"id\": \"{{patient2}}\"\n  },\n  \"appointmentDate\": \"2026-10-10\",\n  \"status\": \"CANCELLED\",\n  \"reason\": \"Quiz appointment 7\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
             },
-            "description": "Expected HTTP 201. Requires collection variables: doctor2, patient2. Run the seed folder first; crud variables come from the matching Create request."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/appointments/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load appointments before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.reason === body.reason && row.doctor.id === body.doctor.id && row.patient.id === body.patient.id && row.appointmentDate === body.appointmentDate; });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"appointment7\", existing.id);",
+                  "        console.log(\"Reusing existing appointments record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -1060,16 +1463,34 @@
             "url": "{{baseUrl}}/api/appointments/save",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"doctor\": {\n    \"id\": \"{{doctor2}}\"\n  },\n  \"patient\": {\n    \"id\": \"{{patient3}}\"\n  },\n  \"appointmentDate\": \"2026-10-20\",\n  \"status\": \"COMPLETED\",\n  \"reason\": \"Clinic visit\"\n}",
+              "raw": "{\n  \"doctor\": {\n    \"id\": \"{{doctor2}}\"\n  },\n  \"patient\": {\n    \"id\": \"{{patient3}}\"\n  },\n  \"appointmentDate\": \"2026-10-20\",\n  \"status\": \"COMPLETED\",\n  \"reason\": \"Quiz appointment 8\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
             },
-            "description": "Expected HTTP 201. Requires collection variables: doctor2, patient3. Run the seed folder first; crud variables come from the matching Create request."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/appointments/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load appointments before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.reason === body.reason && row.doctor.id === body.doctor.id && row.patient.id === body.patient.id && row.appointmentDate === body.appointmentDate; });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"appointment8\", existing.id);",
+                  "        console.log(\"Reusing existing appointments record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -1095,16 +1516,34 @@
             "url": "{{baseUrl}}/api/appointments/save",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"doctor\": {\n    \"id\": \"{{doctor2}}\"\n  },\n  \"patient\": {\n    \"id\": \"{{patient4}}\"\n  },\n  \"appointmentDate\": \"2026-11-10\",\n  \"status\": \"CONFIRMED\",\n  \"reason\": \"Clinic visit\"\n}",
+              "raw": "{\n  \"doctor\": {\n    \"id\": \"{{doctor2}}\"\n  },\n  \"patient\": {\n    \"id\": \"{{patient4}}\"\n  },\n  \"appointmentDate\": \"2026-11-10\",\n  \"status\": \"CONFIRMED\",\n  \"reason\": \"Quiz appointment 9\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
             },
-            "description": "Expected HTTP 201. Requires collection variables: doctor2, patient4. Run the seed folder first; crud variables come from the matching Create request."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/appointments/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load appointments before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.reason === body.reason && row.doctor.id === body.doctor.id && row.patient.id === body.patient.id && row.appointmentDate === body.appointmentDate; });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"appointment9\", existing.id);",
+                  "        console.log(\"Reusing existing appointments record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -1130,16 +1569,34 @@
             "url": "{{baseUrl}}/api/appointments/save",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"doctor\": {\n    \"id\": \"{{doctor3}}\"\n  },\n  \"patient\": {\n    \"id\": \"{{patient5}}\"\n  },\n  \"appointmentDate\": \"2026-11-15\",\n  \"status\": \"SCHEDULED\",\n  \"reason\": \"Clinic visit\"\n}",
+              "raw": "{\n  \"doctor\": {\n    \"id\": \"{{doctor3}}\"\n  },\n  \"patient\": {\n    \"id\": \"{{patient5}}\"\n  },\n  \"appointmentDate\": \"2026-11-15\",\n  \"status\": \"SCHEDULED\",\n  \"reason\": \"Quiz appointment 10\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
             },
-            "description": "Expected HTTP 201. Requires collection variables: doctor3, patient5. Run the seed folder first; crud variables come from the matching Create request."
+            "description": "Creates this seed record if missing. Reuses an existing match and skips the POST to avoid duplicates."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/appointments/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load appointments before seeding\"); }",
+                  "    const existing = response.json().find(function (row) { return row.reason === body.reason && row.doctor.id === body.doctor.id && row.patient.id === body.patient.id && row.appointmentDate === body.appointmentDate; });",
+                  "    if (existing) {",
+                  "        pm.collectionVariables.set(\"appointment10\", existing.id);",
+                  "        console.log(\"Reusing existing appointments record\", existing.id);",
+                  "        pm.execution.skipRequest();",
+                  "    }",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -1153,7 +1610,7 @@
           ]
         }
       ],
-      "description": "Run every request in order once. These requests insert real records and store generated UUIDs as collection variables. Cancelled bookings are created before the confirmed booking on the same day. Specialization updates assign doctors."
+      "description": "The seed data is saved in PostgreSQL. Run this folder to add missing seed records; existing matches are reused. Existing appointments are not reset if their status has changed."
     },
     {
       "name": "2 Query requirements",
@@ -1164,16 +1621,31 @@
             "method": "GET",
             "header": [],
             "url": "{{baseUrl}}/api/patients/by-last-name?lastName=uWaSe",
-            "description": "Expected HTTP 200."
+            "description": "Runs against the same PostgreSQL database on port 1014. Query and bulk count tests use current records. UUID variables are populated in this export."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/patients/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load patients for comparison\"); }",
+                  "    const rows = response.json();",
+                  "    const doctorId = pm.variables.get(\"doctor1\");",
+                  "    const expected = rows.filter(p => p.lastName.toLowerCase() === \"uwase\").map(p => p.firstName).sort();",
+                  "    pm.variables.set(\"expectedResult\", JSON.stringify(expected));",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
-                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.json().map(p => p.firstName)).to.eql([\"Alice\", \"Diane\"]); });"
+                  "pm.test(\"Matches current database\", function () { const data = pm.response.json(); const actual = data.map(p => p.firstName); pm.expect(actual).to.eql(JSON.parse(pm.variables.get(\"expectedResult\"))); });"
                 ]
               }
             }
@@ -1185,7 +1657,7 @@
             "method": "GET",
             "header": [],
             "url": "{{baseUrl}}/api/patients/by-last-name?lastName=Nobody",
-            "description": "Expected HTTP 200."
+            "description": "Runs against the same PostgreSQL database on port 1014. Query and bulk count tests use current records. UUID variables are populated in this export."
           },
           "event": [
             {
@@ -1206,16 +1678,31 @@
             "method": "GET",
             "header": [],
             "url": "{{baseUrl}}/api/appointments/by-status?status=SCHEDULED",
-            "description": "Expected HTTP 200."
+            "description": "Runs against the same PostgreSQL database on port 1014. Query and bulk count tests use current records. UUID variables are populated in this export."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/appointments/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load appointments for comparison\"); }",
+                  "    const rows = response.json();",
+                  "    const doctorId = pm.variables.get(\"doctor1\");",
+                  "    const expected = rows.filter(a => a.status === \"SCHEDULED\").map(a => a.appointmentDate).sort();",
+                  "    pm.variables.set(\"expectedResult\", JSON.stringify(expected));",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
-                  "pm.test(\"Expected result\", function () { const rows = pm.response.json(); pm.expect(rows.length).to.eql(3); pm.expect(rows.every(a => a.status === \"SCHEDULED\")).to.eql(true); const dates = rows.map(a => a.appointmentDate); pm.expect(dates).to.eql([...dates].sort()); });"
+                  "pm.test(\"Matches current database\", function () { const data = pm.response.json(); const actual = data.map(a => a.appointmentDate); pm.expect(actual).to.eql(JSON.parse(pm.variables.get(\"expectedResult\"))); });"
                 ]
               }
             }
@@ -1227,16 +1714,31 @@
             "method": "GET",
             "header": [],
             "url": "{{baseUrl}}/api/appointments/between?start=2026-10-01&end=2026-10-31",
-            "description": "Expected HTTP 200."
+            "description": "Runs against the same PostgreSQL database on port 1014. Query and bulk count tests use current records. UUID variables are populated in this export."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/appointments/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load appointments for comparison\"); }",
+                  "    const rows = response.json();",
+                  "    const doctorId = pm.variables.get(\"doctor1\");",
+                  "    const expected = rows.filter(a => a.appointmentDate >= \"2026-10-01\" && a.appointmentDate <= \"2026-10-31\").map(a => a.appointmentDate).sort();",
+                  "    pm.variables.set(\"expectedResult\", JSON.stringify(expected));",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
-                  "pm.test(\"Expected result\", function () { const rows = pm.response.json(); pm.expect(rows.length).to.eql(7); pm.expect(rows[0].appointmentDate).to.eql(\"2026-10-01\"); pm.expect(rows[6].appointmentDate).to.eql(\"2026-10-31\"); });"
+                  "pm.test(\"Matches current database\", function () { const data = pm.response.json(); const actual = data.map(a => a.appointmentDate); pm.expect(actual).to.eql(JSON.parse(pm.variables.get(\"expectedResult\"))); });"
                 ]
               }
             }
@@ -1283,16 +1785,31 @@
             "method": "GET",
             "header": [],
             "url": "{{baseUrl}}/api/doctors/by-specialization?name=cArDiOlOgY",
-            "description": "Expected HTTP 200."
+            "description": "Runs against the same PostgreSQL database on port 1014. Query and bulk count tests use current records. UUID variables are populated in this export."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/specializations/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load specializations for comparison\"); }",
+                  "    const rows = response.json();",
+                  "    const doctorId = pm.variables.get(\"doctor1\");",
+                  "    const expected = [...new Set(rows.filter(s => s.name.toLowerCase() === \"cardiology\").flatMap(s => s.doctors.map(d => d.id)))].sort();",
+                  "    pm.variables.set(\"expectedResult\", JSON.stringify(expected));",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
-                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.json().map(d => d.id)).to.eql([pm.collectionVariables.get(\"doctor1\")]); });"
+                  "pm.test(\"Matches current database\", function () { const data = pm.response.json(); const actual = data.map(d => d.id).sort(); pm.expect(actual).to.eql(JSON.parse(pm.variables.get(\"expectedResult\"))); });"
                 ]
               }
             }
@@ -1304,16 +1821,31 @@
             "method": "GET",
             "header": [],
             "url": "{{baseUrl}}/api/doctors/without-office",
-            "description": "Expected HTTP 200."
+            "description": "Runs against the same PostgreSQL database on port 1014. Query and bulk count tests use current records. UUID variables are populated in this export."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/doctors/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load doctors for comparison\"); }",
+                  "    const rows = response.json();",
+                  "    const doctorId = pm.variables.get(\"doctor1\");",
+                  "    const expected = rows.filter(d => !d.office).map(d => d.lastName).sort();",
+                  "    pm.variables.set(\"expectedResult\", JSON.stringify(expected));",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
-                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.json().map(d => d.id)).to.eql([pm.collectionVariables.get(\"doctor3\")]); });"
+                  "pm.test(\"Matches current database\", function () { const data = pm.response.json(); const actual = data.map(d => d.lastName); pm.expect(actual).to.eql(JSON.parse(pm.variables.get(\"expectedResult\"))); });"
                 ]
               }
             }
@@ -1325,16 +1857,31 @@
             "method": "GET",
             "header": [],
             "url": "{{baseUrl}}/api/specializations/unused",
-            "description": "Expected HTTP 200."
+            "description": "Runs against the same PostgreSQL database on port 1014. Query and bulk count tests use current records. UUID variables are populated in this export."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/specializations/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load specializations for comparison\"); }",
+                  "    const rows = response.json();",
+                  "    const doctorId = pm.variables.get(\"doctor1\");",
+                  "    const expected = rows.filter(s => s.doctors.length === 0).map(s => s.id).sort();",
+                  "    pm.variables.set(\"expectedResult\", JSON.stringify(expected));",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
-                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.json().map(s => s.name)).to.eql([\"Neurology\"]); });"
+                  "pm.test(\"Matches current database\", function () { const data = pm.response.json(); const actual = data.map(s => s.id).sort(); pm.expect(actual).to.eql(JSON.parse(pm.variables.get(\"expectedResult\"))); });"
                 ]
               }
             }
@@ -1346,16 +1893,31 @@
             "method": "GET",
             "header": [],
             "url": "{{baseUrl}}/api/patients/of-doctor/{{doctor1}}",
-            "description": "Expected HTTP 200. Requires collection variables: doctor1. Run the seed folder first; crud variables come from the matching Create request."
+            "description": "Runs against the same PostgreSQL database on port 1014. Query and bulk count tests use current records. UUID variables are populated in this export."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/appointments/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load appointments for comparison\"); }",
+                  "    const rows = response.json();",
+                  "    const doctorId = pm.variables.get(\"doctor1\");",
+                  "    const expected = [...new Set(rows.filter(a => a.doctor.id === doctorId).map(a => a.patient.id))].sort();",
+                  "    pm.variables.set(\"expectedResult\", JSON.stringify(expected));",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
-                  "pm.test(\"Expected result\", function () { const ids = pm.response.json().map(p => p.id); pm.expect(ids.length).to.eql(3); pm.expect(new Set(ids).size).to.eql(3); });"
+                  "pm.test(\"Matches current database\", function () { const data = pm.response.json(); const actual = data.map(p => p.id).sort(); pm.expect(actual).to.eql(JSON.parse(pm.variables.get(\"expectedResult\"))); });"
                 ]
               }
             }
@@ -1367,7 +1929,7 @@
             "method": "GET",
             "header": [],
             "url": "{{baseUrl}}/api/patients/of-doctor/00000000-0000-0000-0000-000000000000",
-            "description": "Expected HTTP 404. This deliberately reads a missing or deleted record; not found is expected."
+            "description": "Runs against the same PostgreSQL database on port 1014. Query and bulk count tests use current records. UUID variables are populated in this export."
           },
           "event": [
             {
@@ -1388,16 +1950,31 @@
             "method": "GET",
             "header": [],
             "url": "{{baseUrl}}/api/appointments/stats/by-status",
-            "description": "Expected HTTP 200."
+            "description": "Runs against the same PostgreSQL database on port 1014. Query and bulk count tests use current records. UUID variables are populated in this export."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/appointments/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load appointments for comparison\"); }",
+                  "    const rows = response.json();",
+                  "    const doctorId = pm.variables.get(\"doctor1\");",
+                  "    const expected = Object.entries(rows.reduce((counts, a) => { counts[a.status] = (counts[a.status] || 0) + 1; return counts; }, {})).sort();",
+                  "    pm.variables.set(\"expectedResult\", JSON.stringify(expected));",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
-                  "pm.test(\"Expected result\", function () { const counts = Object.fromEntries(pm.response.json()); pm.expect(counts).to.eql({SCHEDULED:3, CONFIRMED:2, COMPLETED:2, CANCELLED:3}); });"
+                  "pm.test(\"Matches current database\", function () { const data = pm.response.json(); const actual = data.sort(); pm.expect(actual).to.eql(JSON.parse(pm.variables.get(\"expectedResult\"))); });"
                 ]
               }
             }
@@ -1409,16 +1986,32 @@
             "method": "GET",
             "header": [],
             "url": "{{baseUrl}}/api/patients/frequent?min=3",
-            "description": "Expected HTTP 200."
+            "description": "Runs against the same PostgreSQL database on port 1014. Query and bulk count tests use current records. UUID variables are populated in this export."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/appointments/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load appointments for comparison\"); }",
+                  "    const rows = response.json();",
+                  "    const doctorId = pm.variables.get(\"doctor1\");",
+                  "    const expected = (() => { const counts = {}; rows.forEach(a => { counts[a.patient.id] = (counts[a.patient.id] || 0) + 1; }); pm.variables.set(\"patientCounts\", JSON.stringify(counts)); return Object.keys(counts).filter(id => counts[id] >= 3).sort(); })();",
+                  "    pm.variables.set(\"expectedResult\", JSON.stringify(expected));",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
-                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.json().map(p => p.id)).to.eql([pm.collectionVariables.get(\"patient1\")]); });"
+                  "pm.test(\"Matches current database\", function () { const data = pm.response.json(); const actual = data.map(p => p.id).sort(); pm.expect(actual).to.eql(JSON.parse(pm.variables.get(\"expectedResult\"))); });",
+                  "pm.test(\"Most appointments first\", function () { const counts = JSON.parse(pm.variables.get(\"patientCounts\")); const ordered = pm.response.json().map(p => counts[p.id]); pm.expect(ordered).to.eql([...ordered].sort((a,b) => b-a)); });"
                 ]
               }
             }
@@ -1430,16 +2023,31 @@
             "method": "GET",
             "header": [],
             "url": "{{baseUrl}}/api/offices/busiest",
-            "description": "Expected HTTP 200."
+            "description": "Runs against the same PostgreSQL database on port 1014. Query and bulk count tests use current records. UUID variables are populated in this export."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/appointments/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load appointments for comparison\"); }",
+                  "    const rows = response.json();",
+                  "    const doctorId = pm.variables.get(\"doctor1\");",
+                  "    const expected = (() => { const counts = {}; rows.filter(a => a.doctor.office).forEach(a => { const o = a.doctor.office; if (!counts[o.id]) counts[o.id] = [o.name, o.officeNumber, 0]; counts[o.id][2]++; }); return Object.values(counts).sort((a,b) => b[2]-a[2] || a[1]-b[1])[0]; })();",
+                  "    pm.variables.set(\"expectedResult\", JSON.stringify(expected));",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
-                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.json()).to.eql([\"Office 101\",101,6]); });"
+                  "pm.test(\"Matches current database\", function () { const data = pm.response.json(); const actual = data; pm.expect(actual).to.eql(JSON.parse(pm.variables.get(\"expectedResult\"))); });"
                 ]
               }
             }
@@ -1451,23 +2059,38 @@
             "method": "GET",
             "header": [],
             "url": "{{baseUrl}}/api/appointments/page?page=0&size=5&sort=appointmentDate,desc",
-            "description": "Expected HTTP 200."
+            "description": "Runs against the same PostgreSQL database on port 1014. Query and bulk count tests use current records. UUID variables are populated in this export."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/appointments/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load appointments for comparison\"); }",
+                  "    const rows = response.json();",
+                  "    const doctorId = pm.variables.get(\"doctor1\");",
+                  "    const expected = ({totalElements:rows.length,totalPages:Math.ceil(rows.length/5),dates:rows.map(a => a.appointmentDate).sort().reverse().slice(0,5)});",
+                  "    pm.variables.set(\"expectedResult\", JSON.stringify(expected));",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
-                  "pm.test(\"Expected result\", function () { const page = pm.response.json(); pm.expect(page.totalElements).to.eql(10); pm.expect(page.totalPages).to.eql(2); pm.expect(page.content.length).to.eql(5); pm.expect(page.content[0].appointmentDate).to.eql(\"2026-11-15\"); });"
+                  "pm.test(\"Matches current database\", function () { const data = pm.response.json(); const actual = ({totalElements:data.totalElements,totalPages:data.totalPages,dates:data.content.map(a => a.appointmentDate)}); pm.expect(actual).to.eql(JSON.parse(pm.variables.get(\"expectedResult\"))); });"
                 ]
               }
             }
           ]
         }
       ],
-      "description": "Run after the complete seed folder and before bulk changes. Exact counts and names match the supplied seed data. The 409 double-booking and 404 missing-doctor responses are expected."
+      "description": "Checks the query results against current database records. The duplicate-booking request deliberately expects HTTP 409."
     },
     {
       "name": "3 Bulk changes",
@@ -1478,16 +2101,31 @@
             "method": "PATCH",
             "header": [],
             "url": "{{baseUrl}}/api/appointments/cancel-day?doctorId={{doctor1}}&date=2026-10-20",
-            "description": "Expected HTTP 200. Requires collection variables: doctor1. Run the seed folder first; crud variables come from the matching Create request."
+            "description": "Runs against the same PostgreSQL database on port 1014. Query and bulk count tests use current records. UUID variables are populated in this export."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/appointments/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load appointments for comparison\"); }",
+                  "    const rows = response.json();",
+                  "    const doctorId = pm.variables.get(\"doctor1\");",
+                  "    const expected = rows.filter(a => a.doctor.id === pm.variables.get(\"doctor1\") && a.appointmentDate === \"2026-10-20\" && a.status !== \"COMPLETED\").length + \" appointments cancelled\";",
+                  "    pm.variables.set(\"expectedResult\", JSON.stringify(expected));",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
-                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.text()).to.eql(\"3 appointments cancelled\"); });"
+                  "pm.test(\"Matches current database\", function () { const data = pm.response.text(); const actual = data; pm.expect(actual).to.eql(JSON.parse(pm.variables.get(\"expectedResult\"))); });"
                 ]
               }
             }
@@ -1499,7 +2137,7 @@
             "method": "GET",
             "header": [],
             "url": "{{baseUrl}}/api/appointments/between?start=2026-10-20&end=2026-10-20",
-            "description": "Expected HTTP 200."
+            "description": "Runs against the same PostgreSQL database on port 1014. Query and bulk count tests use current records. UUID variables are populated in this export."
           },
           "event": [
             {
@@ -1520,16 +2158,31 @@
             "method": "PATCH",
             "header": [],
             "url": "{{baseUrl}}/api/appointments/cancel-day?doctorId={{doctor2}}&date=2026-10-20",
-            "description": "Expected HTTP 200. Requires collection variables: doctor2. Run the seed folder first; crud variables come from the matching Create request."
+            "description": "Runs against the same PostgreSQL database on port 1014. Query and bulk count tests use current records. UUID variables are populated in this export."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/appointments/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load appointments for comparison\"); }",
+                  "    const rows = response.json();",
+                  "    const doctorId = pm.variables.get(\"doctor1\");",
+                  "    const expected = rows.filter(a => a.doctor.id === pm.variables.get(\"doctor2\") && a.appointmentDate === \"2026-10-20\" && a.status !== \"COMPLETED\").length + \" appointments cancelled\";",
+                  "    pm.variables.set(\"expectedResult\", JSON.stringify(expected));",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
-                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.text()).to.eql(\"0 appointments cancelled\"); });"
+                  "pm.test(\"Matches current database\", function () { const data = pm.response.text(); const actual = data; pm.expect(actual).to.eql(JSON.parse(pm.variables.get(\"expectedResult\"))); });"
                 ]
               }
             }
@@ -1541,16 +2194,31 @@
             "method": "DELETE",
             "header": [],
             "url": "{{baseUrl}}/api/appointments/cancelled-before?date=2026-10-15",
-            "description": "Expected HTTP 200."
+            "description": "Runs against the same PostgreSQL database on port 1014. Query and bulk count tests use current records. UUID variables are populated in this export."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/appointments/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load appointments for comparison\"); }",
+                  "    const rows = response.json();",
+                  "    const doctorId = pm.variables.get(\"doctor1\");",
+                  "    const expected = rows.filter(a => a.status === \"CANCELLED\" && a.appointmentDate < \"2026-10-15\").length + \" appointments deleted\";",
+                  "    pm.variables.set(\"expectedResult\", JSON.stringify(expected));",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
-                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.text()).to.eql(\"1 appointments deleted\"); });"
+                  "pm.test(\"Matches current database\", function () { const data = pm.response.text(); const actual = data; pm.expect(actual).to.eql(JSON.parse(pm.variables.get(\"expectedResult\"))); });"
                 ]
               }
             }
@@ -1562,7 +2230,7 @@
             "method": "GET",
             "header": [],
             "url": "{{baseUrl}}/api/appointments/{{appointment7}}",
-            "description": "Expected HTTP 404. This deliberately reads a missing or deleted record; not found is expected. Requires collection variables: appointment7. Run the seed folder first; crud variables come from the matching Create request."
+            "description": "Runs against the same PostgreSQL database on port 1014. Query and bulk count tests use current records. UUID variables are populated in this export."
           },
           "event": [
             {
@@ -1582,23 +2250,38 @@
             "method": "DELETE",
             "header": [],
             "url": "{{baseUrl}}/api/appointments/cancelled-before?date=2026-10-20",
-            "description": "Expected HTTP 200."
+            "description": "Runs against the same PostgreSQL database on port 1014. Query and bulk count tests use current records. UUID variables are populated in this export."
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.sendRequest(pm.variables.get(\"baseUrl\") + \"/api/appointments/all\", function (error, response) {",
+                  "    if (error || response.code !== 200) { throw new Error(\"Cannot load appointments for comparison\"); }",
+                  "    const rows = response.json();",
+                  "    const doctorId = pm.variables.get(\"doctor1\");",
+                  "    const expected = rows.filter(a => a.status === \"CANCELLED\" && a.appointmentDate < \"2026-10-20\").length + \" appointments deleted\";",
+                  "    pm.variables.set(\"expectedResult\", JSON.stringify(expected));",
+                  "});"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
-                  "pm.test(\"Expected result\", function () { pm.expect(pm.response.text()).to.eql(\"0 appointments deleted\"); });"
+                  "pm.test(\"Matches current database\", function () { const data = pm.response.text(); const actual = data; pm.expect(actual).to.eql(JSON.parse(pm.variables.get(\"expectedResult\"))); });"
                 ]
               }
             }
           ]
         }
       ],
-      "description": "Run after query checks. These requests cancel and delete real seed appointments. Repeating this folder can produce different counts because data has changed."
+      "description": "Changes real PostgreSQL appointments. Counts are checked against the matching records immediately before each request."
     },
     {
       "name": "4 CRUD checks",
