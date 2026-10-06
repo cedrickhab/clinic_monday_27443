@@ -18,7 +18,6 @@ public class OfficeService {
     private OfficeRepository officeRepo;
 
     public String saveOffice(Office office) {
-
         if (officeRepo.existsByOfficeNumber(office.getOfficeNumber())) {
             return "Office with that number already exists";
         }
@@ -36,15 +35,13 @@ public class OfficeService {
     }
 
     public String updateOffice(UUID id, Office newOffice) {
-
         Optional<Office> foundOffice = officeRepo.findById(id);
 
         if (foundOffice.isEmpty()) {
             return "Office not found";
         }
 
-        Office officeWithSameNumber =
-                officeRepo.findByOfficeNumber(newOffice.getOfficeNumber());
+        Office officeWithSameNumber = officeRepo.findByOfficeNumber(newOffice.getOfficeNumber());
 
         if (officeWithSameNumber != null &&
                 !officeWithSameNumber.getId().equals(id)) {
@@ -62,7 +59,6 @@ public class OfficeService {
     }
 
     public String deleteOffice(UUID id) {
-
         if (!officeRepo.existsById(id)) {
             return "Office not found";
         }

@@ -54,9 +54,7 @@ public class AppointmentService {
     public Optional<Appointment> updateAppointment(
             UUID id,
             Appointment newAppointment) {
-
-        Optional<Appointment> foundAppointment =
-                appointmentRepo.findById(id);
+        Optional<Appointment> foundAppointment = appointmentRepo.findById(id);
 
         if (foundAppointment.isEmpty()) {
             return Optional.empty();
@@ -68,8 +66,7 @@ public class AppointmentService {
 
         Appointment appointment = foundAppointment.get();
 
-        appointment.setAppointmentDate(
-                newAppointment.getAppointmentDate());
+        appointment.setAppointmentDate(newAppointment.getAppointmentDate());
 
         appointment.setReason(newAppointment.getReason());
         appointment.setStatus(newAppointment.getStatus());
@@ -80,7 +77,6 @@ public class AppointmentService {
     }
 
     public String deleteAppointment(UUID id) {
-
         if (!appointmentRepo.existsById(id)) {
             return "Appointment not found";
         }
@@ -90,7 +86,6 @@ public class AppointmentService {
     }
 
     private boolean loadPatientAndDoctor(Appointment appointment) {
-
         if (appointment.getPatient() == null ||
                 appointment.getPatient().getId() == null ||
                 appointment.getDoctor() == null ||
@@ -98,11 +93,9 @@ public class AppointmentService {
             return false;
         }
 
-        Optional<Patient> patient = patientRepo.findById(
-                appointment.getPatient().getId());
+        Optional<Patient> patient = patientRepo.findById(appointment.getPatient().getId());
 
-        Optional<Doctor> doctor = doctorRepo.findById(
-                appointment.getDoctor().getId());
+        Optional<Doctor> doctor = doctorRepo.findById(appointment.getDoctor().getId());
 
         if (patient.isEmpty() || doctor.isEmpty()) {
             return false;
