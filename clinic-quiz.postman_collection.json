@@ -4,6 +4,17 @@
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": "Import this collection only and select No environment in Postman. It includes baseUrl http://localhost:1014 and the real UUIDs of seed records saved in your PostgreSQL clinic database. No environment file or second server is needed. Seed requests reuse existing matching records. Run the query folder for read-only checks plus the intentional double-booking check. Bulk requests really cancel/delete appointments. CRUD requests must run in order. Expected 409 and 404 responses are deliberate negative tests. Query assertions compare against the current database, including existing records."
   },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.variables.set(\"baseUrl\", \"http://localhost:1014\");"
+        ]
+      }
+    }
+  ],
   "variable": [
     {
       "key": "baseUrl",
