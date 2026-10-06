@@ -28,7 +28,6 @@ public class OfficeController {
 
     @PostMapping("/save")
     public ResponseEntity<String> saveOffice(@RequestBody Office office) {
-
         String message = officeService.saveOffice(office);
 
         if (message.equals("Office is saved successfully")) {
@@ -45,7 +44,6 @@ public class OfficeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getOfficeById(@PathVariable UUID id) {
-
         Optional<Office> office = officeService.getOfficeById(id);
 
         if (office.isPresent()) {
@@ -59,7 +57,6 @@ public class OfficeController {
     public ResponseEntity<String> updateOffice(
             @PathVariable UUID id,
             @RequestBody Office office) {
-
         String message = officeService.updateOffice(id, office);
 
         if (message.equals("Office is updated successfully")) {
@@ -75,7 +72,6 @@ public class OfficeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteOffice(@PathVariable UUID id) {
-
         String message = officeService.deleteOffice(id);
 
         if (message.equals("Office is deleted successfully")) {

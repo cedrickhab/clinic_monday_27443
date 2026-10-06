@@ -28,6 +28,9 @@ public class PatientController {
     @Autowired
     private PatientService patientService;
 
+    @Autowired
+    private DoctorService doctorService;
+
     @PostMapping("/save")
     public ResponseEntity<Patient> savePatient(@RequestBody Patient patient) {
         return new ResponseEntity<>(patientService.savePatient(patient).get(), HttpStatus.CREATED);
@@ -66,14 +69,11 @@ public class PatientController {
     public ResponseEntity<String> deletePatient(@PathVariable UUID id) {
         String message = patientService.deletePatient(id);
         if (message.equals("Patient is deleted successfully")) {
-            return ResponseEntity.ok("Patient is deleted successfully");
+            return ResponseEntity.ok(message);
         }
 
-        return new ResponseEntity<>("Patient not found", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
-
-    @Autowired
-    private DoctorService doctorService;
 
     @GetMapping("/by-last-name")
     public List<Patient> findByLastName(@RequestParam String lastName) {

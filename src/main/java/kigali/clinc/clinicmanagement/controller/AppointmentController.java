@@ -35,9 +35,7 @@ public class AppointmentController {
     private AppointmentService appointmentService;
 
     @PostMapping("/save")
-    public ResponseEntity<?> saveAppointment(
-            @RequestBody Appointment appointment) {
-
+    public ResponseEntity<?> saveAppointment(@RequestBody Appointment appointment) {
         String message = appointmentService.saveAppointment(appointment);
         if (message.equals("Doctor is already booked on that date")) {
             return new ResponseEntity<>(message, HttpStatus.CONFLICT);
@@ -50,56 +48,41 @@ public class AppointmentController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Appointment>> getAllAppointments() {
-        return ResponseEntity.ok(
-                appointmentService.getAllAppointments());
+        return ResponseEntity.ok(appointmentService.getAllAppointments());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getAppointmentById(
-            @PathVariable UUID id) {
-
-        Optional<Appointment> appointment =
-                appointmentService.getAppointmentById(id);
+    public ResponseEntity<?> getAppointmentById(@PathVariable UUID id) {
+        Optional<Appointment> appointment = appointmentService.getAppointmentById(id);
 
         if (appointment.isPresent()) {
             return ResponseEntity.ok(appointment.get());
         }
 
-        return new ResponseEntity<>(
-                "Appointment not found",
-                HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Appointment not found", HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateAppointment(
             @PathVariable UUID id,
             @RequestBody Appointment appointment) {
-
-        Optional<Appointment> updatedAppointment =
-                appointmentService.updateAppointment(id, appointment);
+        Optional<Appointment> updatedAppointment = appointmentService.updateAppointment(id, appointment);
 
         if (updatedAppointment.isPresent()) {
             return ResponseEntity.ok(updatedAppointment.get());
         }
 
-        return new ResponseEntity<>(
-                "Appointment, patient or doctor not found",
-                HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Appointment, patient or doctor not found", HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAppointment(
-            @PathVariable UUID id) {
-
+    public ResponseEntity<String> deleteAppointment(@PathVariable UUID id) {
         String message = appointmentService.deleteAppointment(id);
         if (message.equals("Appointment is deleted successfully")) {
-            return ResponseEntity.ok(
-                    "Appointment is deleted successfully");
+            return ResponseEntity.ok(message);
         }
 
-        return new ResponseEntity<>(
-                "Appointment not found",
-                HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/by-status")

@@ -70,10 +70,10 @@ public class SpecializationController {
     public ResponseEntity<String> deleteSpecialization(@PathVariable UUID id) {
         String message = specializationService.deleteSpecialization(id);
         if (message.equals("Specialization is deleted successfully")) {
-            return ResponseEntity.ok("Specialization is deleted successfully");
+            return ResponseEntity.ok(message);
         }
 
-        return new ResponseEntity<>("Specialization not found", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/unused")

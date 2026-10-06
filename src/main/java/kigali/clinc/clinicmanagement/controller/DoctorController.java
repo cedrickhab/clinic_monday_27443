@@ -71,10 +71,10 @@ public class DoctorController {
     public ResponseEntity<String> deleteDoctor(@PathVariable UUID id) {
         String message = doctorService.deleteDoctor(id);
         if (message.equals("Doctor is deleted successfully")) {
-            return ResponseEntity.ok("Doctor is deleted successfully");
+            return ResponseEntity.ok(message);
         }
 
-        return new ResponseEntity<>("Doctor not found", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/by-specialization")
