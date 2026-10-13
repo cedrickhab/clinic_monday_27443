@@ -1,5 +1,7 @@
 package kigali.clinc.clinicmanagement.service;
 
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -7,7 +9,10 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kigali.clinc.clinicmanagement.domain.Appointment;
+import kigali.clinc.clinicmanagement.domain.AppointmentStatus;
 import kigali.clinc.clinicmanagement.domain.Patient;
+import kigali.clinc.clinicmanagement.repository.AppointmentRepository;
 import kigali.clinc.clinicmanagement.repository.PatientRepository;
 
 @Service
@@ -15,6 +20,9 @@ public class PatientService {
 
     @Autowired
     private PatientRepository patientRepo;
+
+    @Autowired
+    private AppointmentRepository appointmentRepo;
 
     public Optional<Patient> savePatient(Patient patient) {
         return Optional.of(patientRepo.save(patient));
@@ -39,6 +47,7 @@ public class PatientService {
         patient.setFirstName(newPatient.getFirstName());
         patient.setLastName(newPatient.getLastName());
         patient.setDateOfBirth(newPatient.getDateOfBirth());
+        patient.setSsNumber(newPatient.getSsNumber());
 
         return Optional.of(patientRepo.save(patient));
     }
@@ -62,6 +71,19 @@ public class PatientService {
 
     public List<Patient> findFrequentPatients(long min) {
         return patientRepo.findFrequentPatients(min);
+    }
+
+    public List<Appointment> findUpcoming(String ssNumber) {
+        Optional<Patient> patient = patientRepo.findBySsNumber(ssNumber);
+
+        if (patient.isEmpty()) {
+            return null;
+        }
+
+        return appointmentRepo.findByPatientSsNumberAndStatusInAndAppointmentDateGreaterThanEqualOrderByAppointmentDateAsc(
+                ssNumber,
+                Arrays.asList(AppointmentStatus.SCHEDULED, AppointmentStatus.CONFIRMED),
+                LocalDate.now());
     }
 
 }

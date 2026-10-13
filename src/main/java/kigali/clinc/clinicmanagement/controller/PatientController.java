@@ -93,4 +93,15 @@ public class PatientController {
         return patientService.findFrequentPatients(min);
     }
 
+    @GetMapping("/{ssNumber}/upcoming")
+    public ResponseEntity<?> findUpcoming(@PathVariable String ssNumber) {
+        List<?> upcoming = patientService.findUpcoming(ssNumber);
+
+        if (upcoming == null) {
+            return new ResponseEntity<>("That patient with that ssnumber does not exist", HttpStatus.NOT_FOUND);
+        }
+
+        return ResponseEntity.ok(upcoming);
+    }
+
 }
