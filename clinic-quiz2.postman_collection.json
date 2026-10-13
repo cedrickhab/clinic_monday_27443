@@ -1,0 +1,407 @@
+{
+  "info": {
+    "name": "Kigali Clinic Quiz 2",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Quiz 2 collection. Base URL http://localhost:1014 hardcoded. Seed UUIDs come from the live clinic database. Requests are grouped by part. For every requirement run both the success request and the marked error request during the demo. Negative tests are safe: A1D upserts then downserts via A2, B3 NOTFOUND uses a random UUID. B1PAST must be re-dated to tomorrow from the date it is run."
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:1014" },
+    { "key": "doctorJeanty", "value": "8bb86672-fe6b-4ad4-a1fe-d85542d97256" },
+    { "key": "doctorMugabo", "value": "25cb540d-81d4-428a-ba94-60678620729a" },
+    { "key": "doctorUwimana", "value": "f184b1d8-fca1-4e90-a3c5-8f463818101a" },
+    { "key": "doctorNoOffice", "value": "63017571-be76-4356-91b2-19b00f6d786e" },
+    { "key": "specNeurology", "value": "510ea194-03ea-4ddd-8da4-bdc698ef575f" },
+    { "key": "specCardiology", "value": "83bcf243-3cb9-4d5b-a993-673266236165" },
+    { "key": "appointmentConfirmed1020", "value": "45df20a3-a134-487b-844e-f96b6882cc74" },
+    { "key": "appointmentCancelled1020", "value": "95529d35-46ea-4898-8693-b9af21caa678" },
+    { "key": "appointmentReschedulable", "value": "6b9765a5-1f06-496d-a186-b55aa88ba1ed" },
+    { "key": "appointmentCompletedPresc", "value": "d16d3654-f9e5-46e1-a22d-622234fea937" },
+    { "key": "patientSs", "value": "119900111222" },
+    { "key": "randomUuid", "value": "00000000-0000-0000-0000-000000000000" }
+  ],
+  "item": [
+    {
+      "name": "Part A",
+      "item": [
+        {
+          "name": "A1",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/doctors/{{doctorJeanty}}/specializations/{{specNeurology}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "doctors", "{{doctorJeanty}}", "specializations", "{{specNeurology}}"]
+            },
+            "description": "Adds Neurology to Jeanty Mugisha. 200 Specialization added to the doctor. Run twice for 409 The doctor already has that specialization."
+          }
+        },
+        {
+          "name": "A1D",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/doctors/{{doctorJeanty}}/specializations/{{specNeurology}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "doctors", "{{doctorJeanty}}", "specializations", "{{specNeurology}}"]
+            },
+            "description": "Cleanup for A1 repeat runs: removes the link so A1 can be re-run."
+          }
+        },
+        {
+          "name": "A2",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/doctors/{{doctorJeanty}}/specializations/{{specCardiology}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "doctors", "{{doctorJeanty}}", "specializations", "{{specCardiology}}"]
+            },
+            "description": "409 The doctor does not have that specialization since Jeanty never had Cardiology, then 404 for a bad specialization uuid."
+          }
+        },
+        {
+          "name": "A3",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/offices/free",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "offices", "free"]
+            },
+            "description": "Returns office 104 only. 200."
+          }
+        },
+        {
+          "name": "A4",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/doctors/{{doctorNoOffice}}/office?officeNumber=104",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "doctors", "{{doctorNoOffice}}", "office"],
+              "query": [{ "key": "officeNumber", "value": "104" }]
+            },
+            "description": "Moves officeless Jean Habimana into office 104. 200 Office changed successfully. Then A3 shows 104 gone from free list."
+          }
+        },
+        {
+          "name": "A4TAKEN",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/doctors/{{doctorNoOffice}}/office?officeNumber=101",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "doctors", "{{doctorNoOffice}}", "office"],
+              "query": [{ "key": "officeNumber", "value": "101" }]
+            },
+            "description": "Office 101 belongs to Mugabo. 409 That office is taken by other doctor."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Part B",
+      "item": [
+        {
+          "name": "B1",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"appointmentDate\": \"2026-11-25\",\n  \"reason\": \"New booking from quiz2\",\n  \"patient\": { \"id\": \"2b4a07be-6fcd-47ee-862d-34efde2a7a28\" },\n  \"doctor\": { \"id\": \"25cb540d-81d4-428a-ba94-60678620729a\" }\n}" },
+            "url": {
+              "raw": "{{baseUrl}}/api/appointments/save",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "appointments", "save"]
+            },
+            "description": "Safe booking for Alice Uwase with Mugabo. 201 with status SCHEDULED. Re-running on same date gives 409 Doctor is already booked on that date."
+          }
+        },
+        {
+          "name": "B1PAST",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"appointmentDate\": \"2026-10-10\",\n  \"reason\": \"past booking\",\n  \"patient\": { \"id\": \"2b4a07be-6fcd-47ee-862d-34efde2a7a28\" },\n  \"doctor\": { \"id\": \"25cb540d-81d4-428a-ba94-60678620729a\" }\n}" },
+            "url": {
+              "raw": "{{baseUrl}}/api/appointments/save",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "appointments", "save"]
+            },
+            "description": "400 Appointment date cannot be in the past. Re-date to yesterday whenever you run it."
+          }
+        },
+        {
+          "name": "B2",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/appointments/a4b218ce-bff2-4418-b1a9-3d3567eeae83/status?status=CONFIRMED",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "appointments", "a4b218ce-bff2-4418-b1a9-3d3567eeae83", "status"],
+              "query": [{ "key": "status", "value": "CONFIRMED" }]
+            },
+            "description": "Legal move SCHEDULED to CONFIRMED on Diane's 2026-10-31 appointment. 200 Appointment status updated successfully."
+          }
+        },
+        {
+          "name": "B2 wrong type",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/appointments/{{appointmentCancelled1020}}/status?status=COMPLETED",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "appointments", "{{appointmentCancelled1020}}", "status"],
+              "query": [{ "key": "status", "value": "COMPLETED" }]
+            },
+            "description": "400 Cannot change status from CANCELLED to COMPLETED. Also try SCHEDULED to SCHEDULED for the same-name case."
+          }
+        },
+        {
+          "name": "B3",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/appointments/{{appointmentReschedulable}}/reschedule?newDate=2027-01-10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "appointments", "{{appointmentReschedulable}}", "reschedule"],
+              "query": [{ "key": "newDate", "value": "2027-01-10" }]
+            },
+            "description": "200 Appointment rescheduled successfully, status resets to SCHEDULED. Note: re-running moves it again and any newDate already booked for Mugabo gives 409."
+          }
+        },
+        {
+          "name": "B3 blocked",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/appointments/{{appointmentCompletedPresc}}/reschedule?newDate=2026-11-05",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "appointments", "{{appointmentCompletedPresc}}", "reschedule"],
+              "query": [{ "key": "newDate", "value": "2026-11-05" }]
+            },
+            "description": "400 A COMPLETED appointment cannot be rescheduled."
+          }
+        },
+        {
+          "name": "B3 NOTFOUND",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/appointments/{{randomUuid}}/reschedule?newDate=2027-01-10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "appointments", "{{randomUuid}}", "reschedule"],
+              "query": [{ "key": "newDate", "value": "2027-01-10" }]
+            },
+            "description": "404 The appointment with that id does not exist."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Part C",
+      "item": [
+        {
+          "name": "C1",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"medicineName\": \"Amoxicillin\",\n  \"dosage\": \"1 tablet, 3 times a day\",\n  \"durationDays\": 7\n}" },
+            "url": {
+              "raw": "{{baseUrl}}/api/prescriptions/save?appointmentId={{appointmentCompletedPresc}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "prescriptions", "save"],
+              "query": [{ "key": "appointmentId", "value": "{{appointmentCompletedPresc}}" }]
+            },
+            "description": "201 Prescription saved successfully. issuedDate set server side to today."
+          }
+        },
+        {
+          "name": "C1 400",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"medicineName\": \"X\",\n  \"dosage\": \"none\",\n  \"durationDays\": 1\n}" },
+            "url": {
+              "raw": "{{baseUrl}}/api/prescriptions/save?appointmentId={{appointmentConfirmed1020}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "prescriptions", "save"],
+              "query": [{ "key": "appointmentId", "value": "{{appointmentConfirmed1020}}" }]
+            },
+            "description": "400 Prescriptions are only for COMPLETED appointments."
+          }
+        },
+        {
+          "name": "C2",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/prescriptions/appointment/{{appointmentCompletedPresc}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "prescriptions", "appointment", "{{appointmentCompletedPresc}}"]
+            },
+            "description": "200 list of prescriptions on the completed appointment."
+          }
+        },
+        {
+          "name": "C3",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/prescriptions/patient/{{patientSs}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "prescriptions", "patient", "{{patientSs}}"]
+            },
+            "description": "200 prescription history for Alice Uwase ssNumber 119900111222, newest first."
+          }
+        },
+        {
+          "name": "C4",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"medicineName\": \"Amoxicillin\",\n  \"dosage\": \"1 tablet, 4 times a day\",\n  \"durationDays\": 10\n}" },
+            "url": {
+              "raw": "{{baseUrl}}/api/prescriptions/update/2572a3f7-08ad-49da-931d-b98517ed190a",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "prescriptions", "update", "2572a3f7-08ad-49da-931d-b98517ed190a"]
+            },
+            "description": "200 Prescription updated successfully. 404 path works with {{randomUuid}}."
+          }
+        },
+        {
+          "name": "C4 DELETE",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/prescriptions/delete/e1b05179-9730-4898-8d1f-988ed07314fe",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "prescriptions", "delete", "e1b05179-9730-4898-8d1f-988ed07314fe"]
+            },
+            "description": "200 Prescription deleted successfully. Warning, destructive. Re-add via C1 to restore the seed."
+          }
+        },
+        {
+          "name": "C4 appointment protected",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/appointments/{{appointmentCompletedPresc}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "appointments", "{{appointmentCompletedPresc}}"]
+            },
+            "description": "409 That appointment has prescriptions, delete them first."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Part D",
+      "item": [
+        {
+          "name": "D1",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/doctors/{{doctorMugabo}}/agenda?date=2026-10-20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "doctors", "{{doctorMugabo}}", "agenda"],
+              "query": [{ "key": "date", "value": "2026-10-20" }]
+            },
+            "description": "200 agenda. Only the CONFIRMED one appears, CANCELLED and COMPLETED excluded."
+          }
+        },
+        {
+          "name": "D2",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/patients/{{patientSs}}/upcoming",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "patients", "{{patientSs}}", "upcoming"]
+            },
+            "description": "200 upcoming SCHEDULED or CONFIRMED for ssNumber, soonest first."
+          }
+        },
+        {
+          "name": "D3",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/doctors/search?name=gis",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "doctors", "search"],
+              "query": [{ "key": "name", "value": "gis" }]
+            },
+            "description": "200 finds Jeanty Mugisha. Case insensitive on first or last name."
+          }
+        },
+        {
+          "name": "D4",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/summary",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "summary"]
+            },
+            "description": "200 one JSON object in key order patients doctors freeOffices appointmentsToday scheduled prescriptions."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bonus",
+      "item": [
+        {
+          "name": "BONUS top medicines",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/prescriptions/stats/top-medicines",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "prescriptions", "stats", "top-medicines"]
+            },
+            "description": "200 rows of medicineName and count, most prescribed first."
+          }
+        },
+        {
+          "name": "BONUS workload",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/doctors/workload?start=2026-10-01&end=2026-10-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "doctors", "workload"],
+              "query": [
+                { "key": "start", "value": "2026-10-01" },
+                { "key": "end", "value": "2026-10-31" }
+              ]
+            },
+            "description": "200 rows of firstName lastName count of COMPLETED appointments, busiest first, zero rows excluded."
+          }
+        }
+      ]
+    }
+  ]
+}
