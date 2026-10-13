@@ -43,6 +43,9 @@ public class AppointmentController {
         if (message.equals("Patient or doctor not found")) {
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
+        if (message.equals("Appointment date cannot be in the past")) {
+            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(appointment, HttpStatus.CREATED);
     }
 
@@ -82,7 +85,49 @@ public class AppointmentController {
             return ResponseEntity.ok(message);
         }
 
+        if (message.equals("That appointment has prescriptions, delete them first")) {
+            return new ResponseEntity<>(message, HttpStatus.CONFLICT);
+        }
+
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<String> updateStatus(
+            @PathVariable UUID id,
+            @RequestParam AppointmentStatus status) {
+        String message = appointmentService.updateStatus(id, status);
+
+        if (message.equals("Appointment status updated successfully")) {
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        }
+
+        if (message.equals("The appointment with that id does not exist")) {
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+    }
+
+    @PatchMapping("/{id}/reschedule")
+    public ResponseEntity<String> reschedule(
+            @PathVariable UUID id,
+            @RequestParam String newDate) {
+        String message = appointmentService.reschedule(id, LocalDate.parse(newDate));
+
+        if (message.equals("Appointment rescheduled successfully")) {
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        }
+
+        if (message.equals("Doctor is already booked on that date")) {
+            return new ResponseEntity<>(message, HttpStatus.CONFLICT);
+        }
+
+        if (message.equals("The appointment with that id does not exist")) {
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/by-status")
