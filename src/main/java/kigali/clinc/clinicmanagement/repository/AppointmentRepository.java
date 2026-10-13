@@ -19,6 +19,16 @@ public interface AppointmentRepository
 
     List<Appointment> findByStatusOrderByAppointmentDateAsc(AppointmentStatus status);
 
+    List<Appointment> findByPatientSsNumberAndStatusInAndAppointmentDateGreaterThanEqualOrderByAppointmentDateAsc(String ssNumber, List<AppointmentStatus> statuses, LocalDate date);
+
+    List<Appointment> findByDoctorIdAndAppointmentDateAndStatusNot(UUID doctorId, LocalDate date, AppointmentStatus status);
+
+    boolean existsByDoctorIdAndStatusNotAndAppointmentDate(UUID doctorId, AppointmentStatus status, LocalDate date);
+
+    long countByStatus(AppointmentStatus status);
+
+    long countByAppointmentDate(LocalDate date);
+
     List<Appointment> findByAppointmentDateBetweenOrderByAppointmentDateAsc(LocalDate start, LocalDate end);
 
     boolean existsByDoctorIdAndAppointmentDateAndStatusNot(UUID doctorId, LocalDate date, AppointmentStatus status);
