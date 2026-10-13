@@ -30,6 +30,10 @@ public class OfficeService {
         return officeRepo.findAll();
     }
 
+    public List<Office> findFreeOffices() {
+        return officeRepo.findFreeOffices();
+    }
+
     public Optional<Office> getOfficeById(UUID id) {
         return officeRepo.findById(id);
     }

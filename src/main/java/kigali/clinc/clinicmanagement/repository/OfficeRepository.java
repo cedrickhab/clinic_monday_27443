@@ -20,4 +20,7 @@ public interface OfficeRepository extends JpaRepository<Office, UUID> {
     @Query("SELECT o.name, o.officeNumber, COUNT(a) FROM Appointment a JOIN a.doctor d JOIN d.office o GROUP BY o.id, o.name, o.officeNumber ORDER BY COUNT(a) DESC, o.officeNumber ASC")
     List<Object[]> findBusiest(Pageable pageable);
 
+    @Query("SELECT o FROM Office o WHERE NOT EXISTS (SELECT d FROM Doctor d WHERE d.office = o) ORDER BY o.officeNumber ASC")
+    List<Office> findFreeOffices();
+
 }

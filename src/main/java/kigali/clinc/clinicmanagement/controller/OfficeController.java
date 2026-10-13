@@ -3,7 +3,6 @@ package kigali.clinc.clinicmanagement.controller;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -88,6 +87,11 @@ public class OfficeController {
             return ResponseEntity.ok("No appointments yet");
         }
         return ResponseEntity.ok(office.get());
+    }
+
+    @GetMapping("/free")
+    public List<Office> findFreeOffices() {
+        return officeService.findFreeOffices();
     }
 
 }
