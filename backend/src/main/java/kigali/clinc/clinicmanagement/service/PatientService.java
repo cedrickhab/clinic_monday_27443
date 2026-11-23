@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kigali.clinc.clinicmanagement.domain.Appointment;
@@ -18,11 +17,13 @@ import kigali.clinc.clinicmanagement.repository.PatientRepository;
 @Service
 public class PatientService {
 
-    @Autowired
-    private PatientRepository patientRepo;
+    private final PatientRepository patientRepo;
+    private final AppointmentRepository appointmentRepo;
 
-    @Autowired
-    private AppointmentRepository appointmentRepo;
+    public PatientService(PatientRepository patientRepo, AppointmentRepository appointmentRepo) {
+        this.patientRepo = patientRepo;
+        this.appointmentRepo = appointmentRepo;
+    }
 
     public Optional<Patient> savePatient(Patient patient) {
         return Optional.of(patientRepo.save(patient));

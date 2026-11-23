@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,20 +21,24 @@ import kigali.clinc.clinicmanagement.repository.SpecializationRepository;
 @Service
 public class DoctorService {
 
-    @Autowired
-    private DoctorRepository doctorRepo;
+    private final DoctorRepository doctorRepo;
+    private final OfficeRepository officeRepo;
+    private final SpecializationRepository specializationRepo;
+    private final AppointmentRepository appointmentRepo;
 
-    @Autowired
-    private OfficeRepository officeRepo;
-
-    @Autowired
-    private SpecializationRepository specializationRepo;
-
-    @Autowired
-    private AppointmentRepository appointmentRepo;
+    public DoctorService(
+            DoctorRepository doctorRepo,
+            OfficeRepository officeRepo,
+            SpecializationRepository specializationRepo,
+            AppointmentRepository appointmentRepo) {
+        this.doctorRepo = doctorRepo;
+        this.officeRepo = officeRepo;
+        this.specializationRepo = specializationRepo;
+        this.appointmentRepo = appointmentRepo;
+    }
 
     public Optional<Doctor> saveDoctor(Doctor doctor) {
-        if (!loadOffice(doctor)) {
+        if (!resolveOffice(doctor)) {
             return Optional.empty();
         }
 
@@ -53,7 +56,7 @@ public class DoctorService {
     public Optional<Doctor> updateDoctor(UUID id, Doctor newDoctor) {
         Optional<Doctor> foundDoctor = doctorRepo.findById(id);
 
-        if (foundDoctor.isEmpty() || !loadOffice(newDoctor)) {
+        if (foundDoctor.isEmpty() || !resolveOffice(newDoctor)) {
             return Optional.empty();
         }
 
@@ -82,7 +85,7 @@ public class DoctorService {
         return "Doctor is deleted successfully";
     }
 
-    private boolean loadOffice(Doctor doctor) {
+    private boolean resolveOffice(Doctor doctor) {
         if (doctor.getOffice() == null) {
             return true;
         }

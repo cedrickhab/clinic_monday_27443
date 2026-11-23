@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,20 +22,24 @@ import kigali.clinc.clinicmanagement.repository.PrescriptionRepository;
 @Service
 public class AppointmentService {
 
-    @Autowired
-    private AppointmentRepository appointmentRepo;
+    private final AppointmentRepository appointmentRepo;
+    private final PatientRepository patientRepo;
+    private final DoctorRepository doctorRepo;
+    private final PrescriptionRepository prescriptionRepo;
 
-    @Autowired
-    private PatientRepository patientRepo;
-
-    @Autowired
-    private DoctorRepository doctorRepo;
-
-    @Autowired
-    private PrescriptionRepository prescriptionRepo;
+    public AppointmentService(
+            AppointmentRepository appointmentRepo,
+            PatientRepository patientRepo,
+            DoctorRepository doctorRepo,
+            PrescriptionRepository prescriptionRepo) {
+        this.appointmentRepo = appointmentRepo;
+        this.patientRepo = patientRepo;
+        this.doctorRepo = doctorRepo;
+        this.prescriptionRepo = prescriptionRepo;
+    }
 
     public String saveAppointment(Appointment appointment) {
-        if (!loadPatientAndDoctor(appointment)) {
+        if (!resolvePatientAndDoctor(appointment)) {
             return "Patient or doctor not found";
         }
         if (appointment.getAppointmentDate().isBefore(LocalDate.now())) {
@@ -68,7 +71,7 @@ public class AppointmentService {
             return Optional.empty();
         }
 
-        if (!loadPatientAndDoctor(newAppointment)) {
+        if (!resolvePatientAndDoctor(newAppointment)) {
             return Optional.empty();
         }
 
@@ -154,7 +157,7 @@ public class AppointmentService {
         return "Appointment rescheduled successfully";
     }
 
-    private boolean loadPatientAndDoctor(Appointment appointment) {
+    private boolean resolvePatientAndDoctor(Appointment appointment) {
         if (appointment.getPatient() == null ||
                 appointment.getPatient().getId() == null ||
                 appointment.getDoctor() == null ||

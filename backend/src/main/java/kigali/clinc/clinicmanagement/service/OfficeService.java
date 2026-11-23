@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +15,13 @@ import kigali.clinc.clinicmanagement.repository.OfficeRepository;
 @Service
 public class OfficeService {
 
-    @Autowired
-    private OfficeRepository officeRepo;
+    private final OfficeRepository officeRepo;
+    private final DoctorRepository doctorRepo;
 
-    @Autowired
-    private DoctorRepository doctorRepo;
+    public OfficeService(OfficeRepository officeRepo, DoctorRepository doctorRepo) {
+        this.officeRepo = officeRepo;
+        this.doctorRepo = doctorRepo;
+    }
 
     public String saveOffice(Office office) {
         if (officeRepo.existsByOfficeNumber(office.getOfficeNumber())) {

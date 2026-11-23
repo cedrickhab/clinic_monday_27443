@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kigali.clinc.clinicmanagement.domain.AppointmentStatus;
@@ -17,20 +16,24 @@ import kigali.clinc.clinicmanagement.repository.PrescriptionRepository;
 @Service
 public class DashboardService {
 
-    @Autowired
-    private PatientRepository patientRepo;
+    private final PatientRepository patientRepo;
+    private final DoctorRepository doctorRepo;
+    private final OfficeRepository officeRepo;
+    private final AppointmentRepository appointmentRepo;
+    private final PrescriptionRepository prescriptionRepo;
 
-    @Autowired
-    private DoctorRepository doctorRepo;
-
-    @Autowired
-    private OfficeRepository officeRepo;
-
-    @Autowired
-    private AppointmentRepository appointmentRepo;
-
-    @Autowired
-    private PrescriptionRepository prescriptionRepo;
+    public DashboardService(
+            PatientRepository patientRepo,
+            DoctorRepository doctorRepo,
+            OfficeRepository officeRepo,
+            AppointmentRepository appointmentRepo,
+            PrescriptionRepository prescriptionRepo) {
+        this.patientRepo = patientRepo;
+        this.doctorRepo = doctorRepo;
+        this.officeRepo = officeRepo;
+        this.appointmentRepo = appointmentRepo;
+        this.prescriptionRepo = prescriptionRepo;
+    }
 
     public Map<String, Long> getSummary() {
         Map<String, Long> summary = new LinkedHashMap<>();

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kigali.clinc.clinicmanagement.domain.Doctor;
@@ -15,14 +14,16 @@ import kigali.clinc.clinicmanagement.repository.SpecializationRepository;
 
 @Service
 public class SpecializationService {
-    @Autowired
-    private SpecializationRepository specializationRepo;
+    private final SpecializationRepository specializationRepo;
+    private final DoctorRepository doctorRepo;
 
-    @Autowired
-    private DoctorRepository doctorRepo;
+    public SpecializationService(SpecializationRepository specializationRepo, DoctorRepository doctorRepo) {
+        this.specializationRepo = specializationRepo;
+        this.doctorRepo = doctorRepo;
+    }
 
     public Optional<Specialization> saveSpecialization(Specialization specialization) {
-        if (!loadDoctors(specialization)) {
+        if (!resolveDoctors(specialization)) {
             return Optional.empty();
         }
         return Optional.of(specializationRepo.save(specialization));
@@ -38,7 +39,7 @@ public class SpecializationService {
 
     public Optional<Specialization> updateSpecialization(UUID id, Specialization newSpecialization) {
         Optional<Specialization> found = specializationRepo.findById(id);
-        if (found.isEmpty() || !loadDoctors(newSpecialization)) {
+        if (found.isEmpty() || !resolveDoctors(newSpecialization)) {
             return Optional.empty();
         }
         Specialization specialization = found.get();
@@ -55,7 +56,7 @@ public class SpecializationService {
         return "Specialization is deleted successfully";
     }
 
-    private boolean loadDoctors(Specialization specialization) {
+    private boolean resolveDoctors(Specialization specialization) {
         List<Doctor> doctors = new ArrayList<>();
         if (specialization.getDoctors() != null) {
             for (Doctor doctor : specialization.getDoctors()) {

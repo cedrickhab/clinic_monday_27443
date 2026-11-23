@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kigali.clinc.clinicmanagement.domain.Appointment;
@@ -17,11 +16,13 @@ import kigali.clinc.clinicmanagement.repository.PrescriptionRepository;
 @Service
 public class PrescriptionService {
 
-    @Autowired
-    private PrescriptionRepository prescriptionRepo;
+    private final PrescriptionRepository prescriptionRepo;
+    private final AppointmentRepository appointmentRepo;
 
-    @Autowired
-    private AppointmentRepository appointmentRepo;
+    public PrescriptionService(PrescriptionRepository prescriptionRepo, AppointmentRepository appointmentRepo) {
+        this.prescriptionRepo = prescriptionRepo;
+        this.appointmentRepo = appointmentRepo;
+    }
 
     public String savePrescription(UUID appointmentId, Prescription prescription) {
         Optional<Appointment> foundAppointment = appointmentRepo.findById(appointmentId);
