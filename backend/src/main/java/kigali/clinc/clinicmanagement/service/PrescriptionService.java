@@ -43,6 +43,10 @@ public class PrescriptionService {
         return "Prescription saved successfully";
     }
 
+    public List<Prescription> getAllPrescriptions() {
+        return prescriptionRepo.findAll();
+    }
+
     public List<Prescription> findByAppointment(UUID appointmentId) {
         Optional<Appointment> foundAppointment = appointmentRepo.findById(appointmentId);
 

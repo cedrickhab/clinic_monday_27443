@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kigali.clinc.clinicmanagement.domain.Appointment;
 import kigali.clinc.clinicmanagement.domain.AppointmentStatus;
@@ -65,12 +66,19 @@ public class DoctorService {
         return Optional.of(doctorRepo.save(doctor));
     }
 
+    @Transactional
     public String deleteDoctor(UUID id) {
-        if (!doctorRepo.existsById(id)) {
+        Optional<Doctor> foundDoctor = doctorRepo.findById(id);
+        if (foundDoctor.isEmpty()) {
             return "Doctor not found";
         }
 
-        doctorRepo.deleteById(id);
+        Doctor doctor = foundDoctor.get();
+        if (doctor.getOffice() != null) {
+            doctor.getOffice().setDoctor(null);
+            doctor.setOffice(null);
+        }
+        doctorRepo.delete(doctor);
         return "Doctor is deleted successfully";
     }
 

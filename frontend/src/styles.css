@@ -1,0 +1,196 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: #17243b;
+  background: #e8edf5;
+  font-family: Arial, sans-serif;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+.app {
+  max-width: 1100px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f5f7fb;
+}
+
+.site-header {
+  padding: 16px 0 12px;
+  border-bottom: 1px solid #cbd4e1;
+}
+
+.site-header h1 {
+  margin: 0 0 15px;
+  color: #1d2b45;
+  font-size: 24px;
+}
+
+.site-header nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.site-header a {
+  padding: 7px 10px;
+  border: 1px solid #cbd4e1;
+  border-radius: 4px;
+  color: #33445d;
+  background: #fff;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.site-header a:hover,
+.site-header a.active-link {
+  color: #fff;
+  border-color: #3e619e;
+  background: #3e619e;
+}
+
+.crud-page {
+  max-width: 800px;
+  margin: 26px auto;
+}
+
+.crud-page h2 {
+  margin: 0 0 13px;
+  color: #223451;
+  font-size: 20px;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.record-form {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+}
+
+.form-field {
+  display: grid;
+  grid-template-columns: 130px minmax(150px, 250px);
+  align-items: center;
+  gap: 8px;
+  color: #34445c;
+  font-size: 13px;
+}
+
+.form-field input,
+.form-field select,
+.list-tools input {
+  min-height: 29px;
+  padding: 4px 7px;
+  border: 1px solid #aeb9c9;
+  border-radius: 2px;
+  background: #fff;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 2px;
+}
+
+.form-buttons button,
+.actions button {
+  padding: 5px 10px;
+  border: 1px solid #7688a3;
+  border-radius: 3px;
+  color: #1b2b45;
+  background: #fdfefe;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.form-buttons button:hover,
+.actions button:hover {
+  background: #e5ebf4;
+}
+
+.form-buttons .cancel-button {
+  color: #37445a;
+  background: #edf0f5;
+}
+
+.crud-page .list-heading {
+  margin: 24px 0 10px;
+}
+
+.list-tools {
+  margin: 0 0 8px;
+}
+
+.list-tools input {
+  width: min(100%, 260px);
+}
+
+.message {
+  padding: 8px 10px;
+  border: 1px solid #cbd4e1;
+  background: #fff;
+  font-size: 13px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 13px;
+}
+
+th,
+td {
+  padding: 8px 9px;
+  border: 1px solid #aeb9c9;
+  text-align: left;
+}
+
+th {
+  color: #243650;
+  background: #dce3ed;
+}
+
+.actions {
+  min-width: 115px;
+  white-space: nowrap;
+}
+
+.actions button {
+  margin-right: 4px;
+}
+
+.actions .delete-button {
+  color: #7d2424;
+}
+
+@media (max-width: 600px) {
+  .app {
+    padding: 12px;
+  }
+
+  .form-field {
+    width: 100%;
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .form-field input,
+  .form-field select {
+    width: 100%;
+  }
+}

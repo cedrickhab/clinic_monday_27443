@@ -58,4 +58,8 @@ public class Office {
         return doctor;
     }
 
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
 }

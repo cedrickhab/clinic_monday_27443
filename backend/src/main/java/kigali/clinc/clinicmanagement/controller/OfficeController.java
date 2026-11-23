@@ -77,6 +77,10 @@ public class OfficeController {
             return ResponseEntity.ok(message);
         }
 
+        if (message.equals("Office is assigned to a doctor")) {
+            return new ResponseEntity<>(message, HttpStatus.CONFLICT);
+        }
+
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 

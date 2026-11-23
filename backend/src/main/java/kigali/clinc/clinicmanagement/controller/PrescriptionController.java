@@ -43,6 +43,11 @@ public class PrescriptionController {
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<Prescription>> getAllPrescriptions() {
+        return ResponseEntity.ok(prescriptionService.getAllPrescriptions());
+    }
+
     @GetMapping("/appointment/{appointmentId}")
     public ResponseEntity<?> findByAppointment(@PathVariable UUID appointmentId) {
         List<Prescription> prescriptions = prescriptionService.findByAppointment(appointmentId);

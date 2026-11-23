@@ -27,3 +27,8 @@ build/
 !**/src/test/**/build/
 
 .vscode/
+.env
+.env.*
+!.env.example
+frontend/node_modules/
+frontend/dist/

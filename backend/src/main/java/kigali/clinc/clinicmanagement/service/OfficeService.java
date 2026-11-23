@@ -7,8 +7,10 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kigali.clinc.clinicmanagement.domain.Office;
+import kigali.clinc.clinicmanagement.repository.DoctorRepository;
 import kigali.clinc.clinicmanagement.repository.OfficeRepository;
 
 @Service
@@ -16,6 +18,9 @@ public class OfficeService {
 
     @Autowired
     private OfficeRepository officeRepo;
+
+    @Autowired
+    private DoctorRepository doctorRepo;
 
     public String saveOffice(Office office) {
         if (officeRepo.existsByOfficeNumber(office.getOfficeNumber())) {
@@ -62,12 +67,18 @@ public class OfficeService {
         return "Office is updated successfully";
     }
 
+    @Transactional
     public String deleteOffice(UUID id) {
-        if (!officeRepo.existsById(id)) {
+        Optional<Office> foundOffice = officeRepo.findById(id);
+        if (foundOffice.isEmpty()) {
             return "Office not found";
         }
 
-        officeRepo.deleteById(id);
+        if (doctorRepo.existsByOfficeId(id)) {
+            return "Office is assigned to a doctor";
+        }
+
+        officeRepo.delete(foundOffice.get());
         return "Office is deleted successfully";
     }
 
